@@ -10,5 +10,8 @@ import jakarta.servlet.http.HttpServletResponse;
 public class SimpleStatusServlet extends HttpServlet{
 
     @Overide
-    protected void doGet(HttpServletRequest r,HttpServletResponce rep)throws Se
+    protected void doGet(HttpServletRequest r,HttpServletResponce rep)throws ServletException,IOException{
+        rep.setContentType("text/plain");
+        rep.getWriter().write("OK");
+    }
 }
