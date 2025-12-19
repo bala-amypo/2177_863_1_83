@@ -1,17 +1,21 @@
+
+
 package com.example.demo.servlet;
-import java.io.IOException;
-import jakarta.servlet.ServletException;
+
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
-@Webserver("/status")
-public class SimpleStatusServlet extends HttpServlet{
+@WebServlet("/status")
+public class SimpleStatusServlet extends HttpServlet {
 
-    @Overide
-    protected void doGet(HttpServletRequest r,HttpServletResponce rep)throws ServletException,IOException{
-        rep.setContentType("text/plain");
-        rep.getWriter().write("OK");
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+
+        response.setContentType("text/plain");
+        response.getWriter().print("OK");
     }
 }

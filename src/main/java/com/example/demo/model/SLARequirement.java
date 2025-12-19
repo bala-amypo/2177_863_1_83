@@ -3,7 +3,10 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "sla_requirements", uniqueConstraints = @UniqueConstraint(columnNames = "requirementName"))
+@Table(
+    name = "sla_requirements",
+    uniqueConstraints = @UniqueConstraint(columnNames = "requirementName")
+)
 public class SLARequirement {
 
     @Id
@@ -24,20 +27,33 @@ public class SLARequirement {
     @Column(nullable = false)
     private Boolean active = true;
 
-    public  SLARequirement(){}
-
-    public  SLARequirment(Long id,String requirementName,String description,Integer maxDeliveryDays,Double minQualityScore,Boolean active){
-    this.id=id;
-    this.requirementName=requirementName;
-    this.description=description;
-    this.maxDeliveryDays=maxDeliveryDays;
-    this.minQualityScore=minQualityScore;
-    this.active=active;
+    // ✅ No-args constructor (required by JPA)
+    public SLARequirement() {
     }
 
-    
+    // ✅ Correct parameterized constructor
+    public SLARequirement(Long id,
+                          String requirementName,
+                          String description,
+                          Integer maxDeliveryDays,
+                          Double minQualityScore,
+                          Boolean active) {
+
+        this.id = id;
+        this.requirementName = requirementName;
+        this.description = description;
+        this.maxDeliveryDays = maxDeliveryDays;
+        this.minQualityScore = minQualityScore;
+        this.active = active;
+    }
+
+    // Getters and Setters
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getRequirementName() {
@@ -46,10 +62,6 @@ public class SLARequirement {
 
     public void setRequirementName(String requirementName) {
         this.requirementName = requirementName;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Integer getMaxDeliveryDays() {
@@ -84,5 +96,3 @@ public class SLARequirement {
         this.description = description;
     }
 }
-
-
