@@ -26,7 +26,14 @@ public class DeliveryEvaluation {
     private Boolean meetsDeliveryTarget;
     private Boolean meetsQualityTarget;
 
-    public DeliveryEvaluatin
+    public DeliveryEvaluation(){}
+
+    public DeliveryEvaluation(Long id,Vendor vendor,SLARequirement,integer actualDeliveryDays,Double qualityScore,LocalDate evaluationDate){
+    this.id=id;
+    this.vendor=vendor;
+    this.slaRequirement=slaRequirement;
+    this.actualDeliveryDays=actualDelivery
+
 
     public Long getId() {
         return id;
