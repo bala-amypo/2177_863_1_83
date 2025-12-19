@@ -24,9 +24,9 @@ public class SLARequirement {
     @Column(nullable = false)
     private Boolean active = true;
 
-    public SLARequirement(){}
+    public  SLARequirement(){}
 
-    public SLARequirment(Long id,String requirmentName,String description,Integer maxDeliveryDays,Double minQualityScore,Boolean active){
+    public  SLARequirment(Long id,String requirementName,String description,Integer maxDeliveryDays,Double minQualityScore,Boolean active){
     this.id=id;
     this.requirementName=requirementName;
     this.description=description;
