@@ -26,6 +26,8 @@ public class DeliveryEvaluation {
     private Boolean meetsDeliveryTarget;
     private Boolean meetsQualityTarget;
 
+    public DeliveryEvaluatin
+
     public Long getId() {
         return id;
     }

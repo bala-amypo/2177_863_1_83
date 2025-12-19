@@ -29,7 +29,11 @@ public class SLARequirement {
     public SLARequirment(Long id,String requirmentName,String description,integer maxDeliveryDays,Double minQualityScore,Boolean active){
     this.id=id;
     this.requirementName=requirementName;
-    this.
+    this.description=description;
+    this.maxDeliveryDays=maxDeliveryDays;
+    this.minQualityScore=minQualityScore;
+    this.active;
+    }
 
     
     public Long getId() {
