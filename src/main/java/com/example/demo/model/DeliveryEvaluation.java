@@ -28,7 +28,7 @@ public class DeliveryEvaluation {
 
     public DeliveryEvaluation(){}
 
-    public DeliveryEvaluation(Long id,Vendor vendor,SLARequirement,integer actualDeliveryDays,Double qualityScore,LocalDate evaluationDate){
+    public DeliveryEvaluation(Long id,Vendor vendor,SLARequirement slaRequirement,integer actualDeliveryDays,Double qualityScore,LocalDate evaluationDate){
     this.id=id;
     this.vendor=vendor;
     this.slaRequirement=slaRequirement;
