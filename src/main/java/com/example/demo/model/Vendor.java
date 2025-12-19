@@ -17,5 +17,12 @@ public class Vendor{
     private String contactEmail;
     private String contactPhone;
 
-    @Column(nullable=false,unique=true)
+    @Column(nullable=false)
+    private Boolean active=true;
+
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    public void onCreate()
 }
