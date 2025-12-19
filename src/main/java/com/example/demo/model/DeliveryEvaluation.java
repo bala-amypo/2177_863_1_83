@@ -32,7 +32,10 @@ public class DeliveryEvaluation {
     this.id=id;
     this.vendor=vendor;
     this.slaRequirement=slaRequirement;
-    this.actualDeliveryDays=actualDelivery
+    this.actualDeliveryDays=actualDeliveryDays;
+    this.qualityScore=qualityScore;
+    this.evaluationDate=evaluationDate;
+    }
 
 
     public Long getId() {

@@ -21,6 +21,13 @@ public class VendorPerformanceScore {
 
     private LocalDateTime calculatedAt;
 
+    public VendorPerformanceScore(){}
+
+    public VendorPerformanceScore(Long id,Vendor vendor,Double overallScore){
+    this.id=id;
+    this.vendor=vendor;
+    this.
+
    
     public Long getId() {
         return id;
