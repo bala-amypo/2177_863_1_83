@@ -25,7 +25,14 @@ public class Vendor {
 
     public Vendor(){}
 
-    public Vendor(Long id,String
+    public Vendor(Long id,String name,String contactEmail,String contactPhone,Boolean active){
+    this.id=id;
+    this.name=name;
+    this.contactEmail=contactEmail;
+    this.contactPhone=contactPhone;
+    this.active=active;
+    }
+    
 
     @PrePersist
     public void onCreate() {
