@@ -23,6 +23,10 @@ public class Vendor {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    public Vendor(){}
+
+    public Vendor(Long id,String
+
     @PrePersist
     public void onCreate() {
         createdAt = LocalDateTime.now();
