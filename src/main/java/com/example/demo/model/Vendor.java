@@ -14,5 +14,8 @@ public class Vendor{
     @Column(nullable=false,unique=true)
     private String name;
 
-    private String contactEmail
+    private String contactEmail;
+    private String contactPhone;
+
+    @Column(nullable=false,unique=true)
 }
