@@ -26,7 +26,9 @@ public class VendorPerformanceScore {
     public VendorPerformanceScore(Long id,Vendor vendor,Double overallScore){
     this.id=id;
     this.vendor=vendor;
-    this.
+    this.overallScore=overallScore;
+    }
+    
 
    
     public Long getId() {
