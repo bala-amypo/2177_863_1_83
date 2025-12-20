@@ -2,9 +2,10 @@ package com.example.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
 @Entity
 @Table(name = "sla_requirements")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "deliveryEvaluations"})
 public class SLARequirement {
 
     @Id
@@ -24,52 +25,29 @@ public class SLARequirement {
 
     private Boolean active = true;
 
-    public SLARequirement() {
-    }
+    public SLARequirement() {}
 
-    public SLARequirement(String requirementName,
-                          String description,
-                          Integer maxDeliveryDays,
-                          Double minQualityScore) {
+    public SLARequirement(String requirementName, String description,
+                          Integer maxDeliveryDays, Double minQualityScore, Boolean active) {
         this.requirementName = requirementName;
         this.description = description;
         this.maxDeliveryDays = maxDeliveryDays;
         this.minQualityScore = minQualityScore;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getRequirementName() {
-        return requirementName;
-    }
-
-    public void setRequirementName(String requirementName) {
-        this.requirementName = requirementName;
-    }
-
-    public Integer getMaxDeliveryDays() {
-        return maxDeliveryDays;
-    }
-
-    public void setMaxDeliveryDays(Integer maxDeliveryDays) {
-        this.maxDeliveryDays = maxDeliveryDays;
-    }
-
-    public Double getMinQualityScore() {
-        return minQualityScore;
-    }
-
-    public void setMinQualityScore(Double minQualityScore) {
-        this.minQualityScore = minQualityScore;
-    }
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
         this.active = active;
     }
+
+    // Getters
+    public Long getId() { return id; }
+    public String getRequirementName() { return requirementName; }
+    public String getDescription() { return description; }
+    public Integer getMaxDeliveryDays() { return maxDeliveryDays; }
+    public Double getMinQualityScore() { return minQualityScore; }
+    public Boolean getActive() { return active; }
+
+    // Setters
+    public void setRequirementName(String requirementName) { this.requirementName = requirementName; }
+    public void setDescription(String description) { this.description = description; }
+    public void setMaxDeliveryDays(Integer maxDeliveryDays) { this.maxDeliveryDays = maxDeliveryDays; }
+    public void setMinQualityScore(Double minQualityScore) { this.minQualityScore = minQualityScore; }
+    public void setActive(Boolean active) { this.active = active; }
 }

@@ -3,9 +3,10 @@ package com.example.demo.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
 @Entity
 @Table(name = "vendors", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "deliveryEvaluations"})
 public class Vendor {
 
     @Id
@@ -26,11 +27,11 @@ public class Vendor {
 
     public Vendor() {}
 
-    public Vendor(String name, String contactEmail, String contactPhone) {
+    public Vendor(String name, String contactEmail, String contactPhone, Boolean active) {
         this.name = name;
         this.contactEmail = contactEmail;
         this.contactPhone = contactPhone;
-        this.active = true;
+        this.active = active;
     }
 
     @PrePersist
