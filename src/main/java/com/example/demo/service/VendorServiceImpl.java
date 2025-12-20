@@ -17,17 +17,20 @@ public class VendorServiceImpl implements VendorService {
 
     @Override
     public Vendor createVendor(Vendor vendor) {
-        if (repository.existsByName(vendor.getName())) {
-            throw new IllegalArgumentException("unique");
-        }
-        vendor.setActive(true);
         return repository.save(vendor);
+    }
+
+    @Override
+    public Vendor updateVendor(Long id, Vendor vendor) {
+        Vendor existing = getVendorById(id);
+        existing.setName(vendor.getName());
+        return repository.save(existing);
     }
 
     @Override
     public Vendor getVendorById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("not found"));
+                .orElseThrow(() -> new RuntimeException("Vendor not found"));
     }
 
     @Override

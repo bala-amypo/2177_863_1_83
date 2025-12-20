@@ -5,55 +5,53 @@ import jakarta.persistence.*;
 @Entity
 @Table(
     name = "sla_requirements",
-    uniqueConstraints = @UniqueConstraint(columnNames = "requirementName")
+    uniqueConstraints = @UniqueConstraint(columnNames = "requirement_name")
 )
 public class SLARequirement {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column(nullable = false, unique = true)
-	private String requirementName;
+    @Column(name = "requirement_name", nullable = false, unique = true)
+    private String requirementName;
 
-	private String description;
+    private String description;
 
-	@Column(nullable = false)
-	private Integer maxDeliveryDays;
+    private Integer maxDeliveryDays;
+    private Double minQualityScore;
 
-	@Column(nullable = false)
-	private Double minQualityScore;
+    private Boolean active = true;
 
-	@Column(nullable = false)
-	private Boolean active = true;
+    public SLARequirement() {}
 
-	public SLARequirement() {}
+    public SLARequirement(String requirementName,
+                          String description,
+                          Integer maxDeliveryDays,
+                          Double minQualityScore) {
+        this.requirementName = requirementName;
+        this.description = description;
+        this.maxDeliveryDays = maxDeliveryDays;
+        this.minQualityScore = minQualityScore;
+    }
 
-	public SLARequirement(String requirementName,
-	                      String description,
-	                      Integer maxDeliveryDays,
-	                      Double minQualityScore) {
-		this.requirementName = requirementName;
-		this.description = description;
-		this.maxDeliveryDays = maxDeliveryDays;
-		this.minQualityScore = minQualityScore;
-		this.active = true;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public Long getId() {
-		return id;
-	}
-	public Integer getMaxDeliveryDays() {
-		return maxDeliveryDays;
-	}
-	public Double getMinQualityScore() {
-		return minQualityScore;
-	}
-	public Boolean getActive() {
-		return active;
-	}
+    public String getRequirementName() {
+        return requirementName;
+    }
 
-	public void setActive(Boolean active) {
-		this.active = active;
-	}
+    public void setRequirementName(String requirementName) {
+        this.requirementName = requirementName;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 }

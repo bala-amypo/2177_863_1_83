@@ -7,37 +7,52 @@ import java.time.LocalDateTime;
 @Table(name = "vendor_performance_scores")
 public class VendorPerformanceScore {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@ManyToOne
-	private Vendor vendor;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "vendor_id")
+    private Vendor vendor;
 
-	private Double onTimePercentage;
-	private Double qualityCompliancePercentage;
-	private Double overallScore;
-	private LocalDateTime calculatedAt;
+    private Double score;
 
-	public VendorPerformanceScore() {}
+    private LocalDateTime calculatedAt;
 
-	public VendorPerformanceScore(Vendor vendor, Double overallScore) {
-		this.vendor = vendor;
-		this.overallScore = overallScore;
-		this.calculatedAt = LocalDateTime.now();
-	}
+    public VendorPerformanceScore() {}
 
-	public Long getId() {
-		return id;
-	}
-	public Vendor getVendor() {
-		return vendor;
-	}
-	public Double getOverallScore() {
-		return overallScore;
-	}
+    public VendorPerformanceScore(Vendor vendor, Double score) {
+        this.vendor = vendor;
+        this.score = score;
+        this.calculatedAt = LocalDateTime.now();
+    }
 
-	public void setOverallScore(Double overallScore) {
-		this.overallScore = overallScore;
-	}
+    public Long getId() {
+        return id;
+    }
+
+    public Vendor getVendor() {
+        return vendor;
+    }
+
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
+    }
+
+    public Double getScore() {
+        return score;
+    }
+
+    public void setScore(Double score) {
+        this.score = score;
+    }
+
+    public LocalDateTime getCalculatedAt() {
+        return calculatedAt;
+    }
+
+    public void setCalculatedAt(LocalDateTime calculatedAt) {
+        this.calculatedAt = calculatedAt;
+    }
 }
+`
