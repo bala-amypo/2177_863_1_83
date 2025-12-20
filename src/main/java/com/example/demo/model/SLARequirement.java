@@ -3,27 +3,28 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(
-    name = "sla_requirements",
-    uniqueConstraints = @UniqueConstraint(columnNames = "requirement_name")
-)
+@Table(name = "sla_requirements")
 public class SLARequirement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "requirement_name", nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
     private String requirementName;
 
     private String description;
 
+    @Column(nullable = false)
     private Integer maxDeliveryDays;
+
+    @Column(nullable = false)
     private Double minQualityScore;
 
     private Boolean active = true;
 
-    public SLARequirement() {}
+    public SLARequirement() {
+    }
 
     public SLARequirement(String requirementName,
                           String description,
@@ -45,6 +46,22 @@ public class SLARequirement {
 
     public void setRequirementName(String requirementName) {
         this.requirementName = requirementName;
+    }
+
+    public Integer getMaxDeliveryDays() {
+        return maxDeliveryDays;
+    }
+
+    public void setMaxDeliveryDays(Integer maxDeliveryDays) {
+        this.maxDeliveryDays = maxDeliveryDays;
+    }
+
+    public Double getMinQualityScore() {
+        return minQualityScore;
+    }
+
+    public void setMinQualityScore(Double minQualityScore) {
+        this.minQualityScore = minQualityScore;
     }
 
     public Boolean getActive() {

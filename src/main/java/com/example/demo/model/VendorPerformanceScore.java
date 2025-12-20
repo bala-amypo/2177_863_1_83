@@ -15,11 +15,14 @@ public class VendorPerformanceScore {
     @JoinColumn(name = "vendor_id")
     private Vendor vendor;
 
+    @Column(nullable = false)
     private Double score;
 
+    @Column(nullable = false)
     private LocalDateTime calculatedAt;
 
-    public VendorPerformanceScore() {}
+    public VendorPerformanceScore() {
+    }
 
     public VendorPerformanceScore(Vendor vendor, Double score) {
         this.vendor = vendor;
@@ -42,9 +45,8 @@ public class VendorPerformanceScore {
     public Double getScore() {
         return score;
     }
-
-    public void setScore(Double score) {
-        this.score = score;
+    public void setOverallScore(double overallScore) {
+        this.score = overallScore;
     }
 
     public LocalDateTime getCalculatedAt() {
@@ -55,4 +57,3 @@ public class VendorPerformanceScore {
         this.calculatedAt = calculatedAt;
     }
 }
-`

@@ -3,23 +3,23 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(
-    name = "vendor_tiers",
-    uniqueConstraints = @UniqueConstraint(columnNames = "tier_name")
-)
+@Table(name = "vendor_tiers")
 public class VendorTier {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "tier_name", nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
     private String tierName;
 
+    @Column(nullable = false)
     private Double minScore;
+
     private Boolean active = true;
 
-    public VendorTier() {}
+    public VendorTier() {
+    }
 
     public VendorTier(String tierName, Double minScore) {
         this.tierName = tierName;
@@ -36,6 +36,14 @@ public class VendorTier {
 
     public void setTierName(String tierName) {
         this.tierName = tierName;
+    }
+
+    public Double getMinScoreThreshold() {
+        return minScore;
+    }
+
+    public void setMinScore(Double minScore) {
+        this.minScore = minScore;
     }
 
     public Boolean getActive() {
