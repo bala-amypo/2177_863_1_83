@@ -65,14 +65,13 @@ public class DeliveryEvaluationServiceImpl implements DeliveryEvaluationService 
                 .orElseThrow(() -> new RuntimeException("Evaluation not found"));
     }
 
-@Override
-public List<DeliveryEvaluation> getEvaluationsForVendor(Long vendorId) {
-    return evaluationRepo.findByVendor_Id(vendorId);
-}
+    @Override
+    public List<DeliveryEvaluation> getEvaluationsForVendor(Long vendorId) {
+        return evaluationRepo.findByVendor_Id(vendorId);
+    }
 
-@Override
-public List<DeliveryEvaluation> getEvaluationsForRequirement(Long requirementId) {
-    return evaluationRepo.findBySlaRequirement_Id(requirementId);
-}
-
+    @Override
+    public List<DeliveryEvaluation> getEvaluationsForRequirement(Long requirementId) {
+        return evaluationRepo.findBySlaRequirement_Id(requirementId);
+    }
 }

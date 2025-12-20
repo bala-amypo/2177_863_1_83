@@ -4,7 +4,6 @@ import com.example.demo.model.DeliveryEvaluation;
 import com.example.demo.service.DeliveryEvaluationService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -34,7 +33,7 @@ public class DeliveryEvaluationController {
                 evaluation.getVendor().getId(),
                 evaluation.getSlaRequirement().getId(),
                 evaluation.getActualDeliveryDays(),
-                evaluation.getQualityScore(),   // ✅ Double
+                evaluation.getQualityScore(),
                 evaluation.getEvaluationDate()
         );
     }
@@ -50,8 +49,7 @@ public class DeliveryEvaluationController {
     }
 
     @GetMapping("/requirement/{requirementId}")
-    public List<DeliveryEvaluation> getByRequirement(
-            @PathVariable Long requirementId) {
+    public List<DeliveryEvaluation> getByRequirement(@PathVariable Long requirementId) {
         return service.getEvaluationsForRequirement(requirementId);
     }
 }
