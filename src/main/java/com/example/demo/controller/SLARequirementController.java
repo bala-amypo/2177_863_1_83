@@ -12,34 +12,35 @@ import java.util.List;
 @Tag(name = "SLA Requirement API")
 public class SLARequirementController {
 
-    private final SLARequirementService slaService;
+    private final SLARequirementService service;
 
-    public SLARequirementController(SLARequirementService slaService) {
-        this.slaService = slaService;
+    public SLARequirementController(SLARequirementService service) {
+        this.service = service;
     }
 
     @PostMapping
     public SLARequirement create(@RequestBody SLARequirement sla) {
-        return slaService.create(sla);
+        return service.createRequirement(sla);
     }
 
     @PutMapping("/{id}")
-    public SLARequirement update(@PathVariable Long id, @RequestBody SLARequirement sla) {
-        return slaService.update(id, sla);
+    public SLARequirement update(@PathVariable Long id,
+                                 @RequestBody SLARequirement sla) {
+        return service.updateRequirement(id, sla);
     }
 
     @GetMapping("/{id}")
     public SLARequirement getById(@PathVariable Long id) {
-        return slaService.getById(id);
+        return service.getRequirementById(id);
     }
 
     @GetMapping
     public List<SLARequirement> getAll() {
-        return slaService.getAll();
+        return service.getAllRequirements();
     }
 
     @PutMapping("/{id}/deactivate")
     public void deactivate(@PathVariable Long id) {
-        slaService.deactivate(id);
+        service.deactivateRequirement(id);
     }
 }

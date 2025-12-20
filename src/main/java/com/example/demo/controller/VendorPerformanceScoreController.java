@@ -12,24 +12,28 @@ import java.util.List;
 @Tag(name = "Vendor Performance Score API")
 public class VendorPerformanceScoreController {
 
-    private final VendorPerformanceScoreService scoreService;
+    private final VendorPerformanceScoreService service;
 
-    public VendorPerformanceScoreController(VendorPerformanceScoreService scoreService) {
-        this.scoreService = scoreService;
+    public VendorPerformanceScoreController(
+            VendorPerformanceScoreService service) {
+        this.service = service;
     }
 
     @PostMapping("/calculate/{vendorId}")
-    public VendorPerformanceScore calculate(@PathVariable Long vendorId) {
-        return scoreService.calculateScore(vendorId);
+    public VendorPerformanceScore calculate(
+            @PathVariable Long vendorId) {
+        return service.calculateScore(vendorId);
     }
 
     @GetMapping("/latest/{vendorId}")
-    public VendorPerformanceScore getLatest(@PathVariable Long vendorId) {
-        return scoreService.getLatestScore(vendorId);
+    public VendorPerformanceScore getLatest(
+            @PathVariable Long vendorId) {
+        return service.getLatestScore(vendorId);
     }
 
     @GetMapping("/vendor/{vendorId}")
-    public List<VendorPerformanceScore> getHistory(@PathVariable Long vendorId) {
-        return scoreService.getScoreHistory(vendorId);
+    public List<VendorPerformanceScore> getHistory(
+            @PathVariable Long vendorId) {
+        return service.getScoresForVendor(vendorId);
     }
 }

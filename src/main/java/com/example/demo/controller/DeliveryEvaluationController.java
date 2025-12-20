@@ -12,29 +12,30 @@ import java.util.List;
 @Tag(name = "Delivery Evaluation API")
 public class DeliveryEvaluationController {
 
-    private final DeliveryEvaluationService evaluationService;
+    private final DeliveryEvaluationService service;
 
-    public DeliveryEvaluationController(DeliveryEvaluationService evaluationService) {
-        this.evaluationService = evaluationService;
+    public DeliveryEvaluationController(DeliveryEvaluationService service) {
+        this.service = service;
     }
 
     @PostMapping
     public DeliveryEvaluation create(@RequestBody DeliveryEvaluation evaluation) {
-        return evaluationService.create(evaluation);
+        return service.createEvaluation(evaluation);
     }
 
     @GetMapping("/{id}")
     public DeliveryEvaluation getById(@PathVariable Long id) {
-        return evaluationService.getById(id);
+        return service.getEvaluationById(id);
     }
 
     @GetMapping("/vendor/{vendorId}")
     public List<DeliveryEvaluation> getByVendor(@PathVariable Long vendorId) {
-        return evaluationService.getByVendor(vendorId);
+        return service.getEvaluationsForVendor(vendorId);
     }
 
-    @GetMapping("/requirement/{reqId}")
-    public List<DeliveryEvaluation> getByRequirement(@PathVariable Long reqId) {
-        return evaluationService.getByRequirement(reqId);
+    @GetMapping("/requirement/{requirementId}")
+    public List<DeliveryEvaluation> getByRequirement(
+            @PathVariable Long requirementId) {
+        return service.getEvaluationsForRequirement(requirementId);
     }
 }
