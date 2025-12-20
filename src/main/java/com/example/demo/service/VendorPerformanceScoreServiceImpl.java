@@ -66,7 +66,7 @@ public class VendorPerformanceScoreServiceImpl
 
     @Override
     public List<VendorPerformanceScore> getScoresForVendor(Long vendorId) {
-        return scoreRepository
-                .findByVendorOrderByCalculatedAtDesc(vendorId);
+        return scoreRepository.findByVendor_IdOrderByCalculatedAtDesc(vendorId);
+
     }
 }
