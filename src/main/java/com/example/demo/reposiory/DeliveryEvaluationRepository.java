@@ -1,6 +1,6 @@
 package com.example.demo.repository;
 
-import com.example.demo.entity.DeliveryEvaluation;
+import com.example.demo.model.DeliveryEvaluation;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
