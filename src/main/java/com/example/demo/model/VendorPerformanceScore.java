@@ -32,7 +32,10 @@ public class VendorPerformanceScore {
     @Column(name = "score_date")
     private LocalDate scoreDate;
 
-    // Getters and setters...
+    @Column(name = "score") // Add this column in the DB as well
+    private Double score;
+
+    // Getters and setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -50,4 +53,7 @@ public class VendorPerformanceScore {
 
     public LocalDate getScoreDate() { return scoreDate; }
     public void setScoreDate(LocalDate scoreDate) { this.scoreDate = scoreDate; }
+
+    public Double getScore() { return score; }
+    public void setScore(Double score) { this.score = score; }
 }
