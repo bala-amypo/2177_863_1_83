@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.model.VendorPerformanceScore;
 import com.example.demo.service.VendorPerformanceScoreService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,17 +20,22 @@ public class VendorPerformanceScoreController {
     }
 
     @PostMapping("/calculate/{vendorId}")
-    public VendorPerformanceScore calculate(@PathVariable Long vendorId) {
-        return service.calculateScore(vendorId);
+    public ResponseEntity<VendorPerformanceScore> calculate(@PathVariable Long vendorId) {
+        VendorPerformanceScore score = service.calculateScore(vendorId);
+        if (score == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(score);
     }
 
     @GetMapping("/latest/{vendorId}")
-    public VendorPerformanceScore getLatest(@PathVariable Long vendorId) {
-        return service.getLatestScore(vendorId);
+    public ResponseEntity<VendorPerformanceScore> getLatest(@PathVariable Long vendorId) {
+        VendorPerformanceScore score = service.getLatestScore(vendorId);
+        if (score == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(score);
     }
 
     @GetMapping("/vendor/{vendorId}")
-    public List<VendorPerformanceScore> getHistory(@PathVariable Long vendorId) {
-        return service.getScoresForVendor(vendorId);
+    public ResponseEntity<List<VendorPerformanceScore>> getHistory(@PathVariable Long vendorId) {
+        List<VendorPerformanceScore> scores = service.getScoresForVendor(vendorId);
+        return ResponseEntity.ok(scores);
     }
 }
