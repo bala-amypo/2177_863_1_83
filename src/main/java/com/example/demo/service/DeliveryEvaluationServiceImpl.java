@@ -1,8 +1,8 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.DeliveryEvaluation;
-import com.example.demo.entity.SLARequirement;
-import com.example.demo.entity.Vendor;
+import com.example.demo.model.DeliveryEvaluation;
+import com.example.demo.model.SLARequirement;
+import com.example.demo.model.Vendor;
 import com.example.demo.repository.DeliveryEvaluationRepository;
 import com.example.demo.repository.SLARequirementRepository;
 import com.example.demo.repository.VendorRepository;

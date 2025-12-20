@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.VendorTier;
+import com.example.demo.model.VendorTier;
 import com.example.demo.repository.VendorTierRepository;
 import org.springframework.stereotype.Service;
 

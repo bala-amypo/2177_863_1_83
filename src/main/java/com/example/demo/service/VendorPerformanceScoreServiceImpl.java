@@ -1,8 +1,8 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.DeliveryEvaluation;
-import com.example.demo.entity.Vendor;
-import com.example.demo.entity.VendorPerformanceScore;
+import com.example.demo.model.DeliveryEvaluation;
+import com.example.demo.model.Vendor;
+import com.example.demo.model.VendorPerformanceScore;
 import com.example.demo.repository.DeliveryEvaluationRepository;
 import com.example.demo.repository.VendorRepository;
 import org.springframework.stereotype.Service;
