@@ -11,12 +11,10 @@ public class DeliveryEvaluation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "vendor_id", nullable = false)
+    @ManyToOne(optional = false)
     private Vendor vendor;
 
-    @ManyToOne
-    @JoinColumn(name = "sla_id", nullable = false)
+    @ManyToOne(optional = false)
     private SLARequirement slaRequirement;
 
     private Integer actualDeliveryDays;
@@ -26,80 +24,34 @@ public class DeliveryEvaluation {
     private Boolean meetsDeliveryTarget;
     private Boolean meetsQualityTarget;
 
-    public DeliveryEvaluation(){}
+    public DeliveryEvaluation() {}
 
-    public DeliveryEvaluation(Long id,Vendor vendor,SLARequirement slaRequirement,Integer actualDeliveryDays,Double qualityScore,LocalDate evaluationDate){
-    this.id=id;
-    this.vendor=vendor;
-    this.slaRequirement=slaRequirement;
-    this.actualDeliveryDays=actualDeliveryDays;
-    this.qualityScore=qualityScore;
-    this.evaluationDate=evaluationDate;
-    }
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public Vendor getVendor() {
-        return vendor;
-    }
-
-    public void setVendor(Vendor vendor) {
+    public DeliveryEvaluation(Vendor vendor,
+                              SLARequirement slaRequirement,
+                              Integer actualDeliveryDays,
+                              Double qualityScore,
+                              LocalDate evaluationDate) {
         this.vendor = vendor;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public SLARequirement getSlaRequirement() {
-        return slaRequirement;
-    }
-
-    public void setSlaRequirement(SLARequirement slaRequirement) {
         this.slaRequirement = slaRequirement;
-    }
-
-    public Integer getActualDeliveryDays() {
-        return actualDeliveryDays;
-    }
-
-    public void setActualDeliveryDays(Integer actualDeliveryDays) {
         this.actualDeliveryDays = actualDeliveryDays;
-    }
-
-    public Double getQualityScore() {
-        return qualityScore;
-    }
-
-    public void setQualityScore(Double qualityScore) {
         this.qualityScore = qualityScore;
-    }
-
-    public LocalDate getEvaluationDate() {
-        return evaluationDate;
-    }
-
-    public void setEvaluationDate(LocalDate evaluationDate) {
         this.evaluationDate = evaluationDate;
     }
 
-    public Boolean getMeetsDeliveryTarget() {
-        return meetsDeliveryTarget;
-    }
+    public Long getId() { return id; }
+    public Vendor getVendor() { return vendor; }
+    public SLARequirement getSlaRequirement() { return slaRequirement; }
+    public Integer getActualDeliveryDays() { return actualDeliveryDays; }
+    public Double getQualityScore() { return qualityScore; }
+
+    public Boolean isMeetsDeliveryTarget() { return meetsDeliveryTarget; }
+    public Boolean isMeetsQualityTarget() { return meetsQualityTarget; }
 
     public void setMeetsDeliveryTarget(Boolean meetsDeliveryTarget) {
         this.meetsDeliveryTarget = meetsDeliveryTarget;
-    }
-
-    public Boolean getMeetsQualityTarget() {
-        return meetsQualityTarget;
     }
 
     public void setMeetsQualityTarget(Boolean meetsQualityTarget) {
         this.meetsQualityTarget = meetsQualityTarget;
     }
 }
-
