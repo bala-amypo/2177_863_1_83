@@ -9,36 +9,21 @@ public class SLARequirementServiceImpl implements SLARequirementService {
 
     @Override
     public SLARequirement createRequirement(SLARequirement req) {
-        if (req.getDeliveryDays() <= 0 || req.getQualityScore() < 0 || req.getQualityScore() > 100) {
-            throw new ValidationException("between 0 and 100");
-        }
-        return repository.save(req);
-    }
 
-    @Override
-    public SLARequirement updateRequirement(Long id, SLARequirement req) {
-        SLARequirement existing = getRequirementById(id);
-        existing.setRequirementName(req.getRequirementName());
-        existing.setDeliveryDays(req.getDeliveryDays());
-        existing.setQualityScore(req.getQualityScore());
-        return repository.save(existing);
+        if (req.getMaxDeliveryDays() <= 0) {
+            throw new IllegalArgumentException("Max delivery days");
+        }
+
+        if (req.getMinQualityScore() < 0 || req.getMinQualityScore() > 100) {
+            throw new IllegalArgumentException("Quality score between 0 and 100");
+        }
+
+        return repository.save(req);
     }
 
     @Override
     public SLARequirement getRequirementById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("not found"));
-    }
-
-    @Override
-    public List<SLARequirement> getAllRequirements() {
-        return repository.findAll();
-    }
-
-    @Override
-    public void deactivateRequirement(Long id) {
-        SLARequirement req = getRequirementById(id);
-        req.setActive(false);
-        repository.save(req);
+                .orElseThrow(() -> new IllegalArgumentException("not found"));
     }
 }
