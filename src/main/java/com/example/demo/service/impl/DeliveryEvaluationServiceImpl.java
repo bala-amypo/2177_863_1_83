@@ -1,4 +1,5 @@
-@Service
+ import org.springframework.stereotype.Service;
+ @Service
 public class DeliveryEvaluationServiceImpl implements DeliveryEvaluationService {
 
     private final DeliveryEvaluationRepository evaluationRepository;
