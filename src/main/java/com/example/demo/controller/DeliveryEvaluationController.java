@@ -17,25 +17,29 @@ public class DeliveryEvaluationController {
         this.service = service;
     }
 
+    // Updated POST method with exception logging
     @PostMapping
     public DeliveryEvaluation create(@RequestBody DeliveryEvaluation evaluation) {
+        try {
+            if (evaluation.getVendor() == null || evaluation.getVendor().getId() == null) {
+                throw new IllegalArgumentException("Vendor ID is required");
+            }
 
-        if (evaluation.getVendor() == null || evaluation.getVendor().getId() == null) {
-            throw new IllegalArgumentException("Vendor ID is required");
+            if (evaluation.getSlaRequirement() == null || evaluation.getSlaRequirement().getId() == null) {
+                throw new IllegalArgumentException("SLA Requirement ID is required");
+            }
+
+            return service.createEvaluation(
+                    evaluation.getVendor().getId(),
+                    evaluation.getSlaRequirement().getId(),
+                    evaluation.getActualDeliveryDays(),
+                    evaluation.getQualityScore(),
+                    evaluation.getEvaluationDate()
+            );
+        } catch (Exception e) {
+            e.printStackTrace(); // logs the real exception to the console
+            throw e;
         }
-
-        if (evaluation.getSlaRequirement() == null ||
-            evaluation.getSlaRequirement().getId() == null) {
-            throw new IllegalArgumentException("SLA Requirement ID is required");
-        }
-
-        return service.createEvaluation(
-                evaluation.getVendor().getId(),
-                evaluation.getSlaRequirement().getId(),
-                evaluation.getActualDeliveryDays(),
-                evaluation.getQualityScore(),
-                evaluation.getEvaluationDate()
-        );
     }
 
     @GetMapping("/{id}")
