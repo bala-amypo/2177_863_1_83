@@ -32,12 +32,33 @@ public class VendorPerformanceScoreServiceImpl implements VendorPerformanceScore
         return evaluations.stream()
                 .map(e -> {
                     VendorPerformanceScore score = new VendorPerformanceScore();
-                    score.setVendorId(vendor.getId());
-                    score.setEvaluationId(e.getId());
+                    score.setVendor(vendor);
+                    score.setEvaluation(e);
                     score.setMeetsDeliveryTarget(Boolean.TRUE.equals(e.getMeetsDeliveryTarget()));
                     score.setMeetsQualityTarget(Boolean.TRUE.equals(e.getMeetsQualityTarget()));
                     return score;
                 })
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public VendorPerformanceScore getLatestScore(Long vendorId) {
+        List<DeliveryEvaluation> evaluations = evaluationRepository.findByVendorId(vendorId);
+
+        if (evaluations.isEmpty()) return null;
+
+        DeliveryEvaluation latest = evaluations.stream()
+                .max((e1, e2) -> e1.getEvaluationDate().compareTo(e2.getEvaluationDate()))
+                .orElse(null);
+
+        if (latest == null) return null;
+
+        VendorPerformanceScore score = new VendorPerformanceScore();
+        score.setVendor(latest.getVendor());
+        score.setEvaluation(latest);
+        score.setMeetsDeliveryTarget(Boolean.TRUE.equals(latest.getMeetsDeliveryTarget()));
+        score.setMeetsQualityTarget(Boolean.TRUE.equals(latest.getMeetsQualityTarget()));
+
+        return score;
     }
 }

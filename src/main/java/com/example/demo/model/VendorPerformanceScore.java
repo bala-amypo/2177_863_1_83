@@ -1,59 +1,24 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import com.example.demo.entity.Vendor;
+import com.example.demo.entity.DeliveryEvaluation;
 
-@Entity
-@Table(name = "vendor_performance_scores")
 public class VendorPerformanceScore {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "vendor_id")
     private Vendor vendor;
+    private DeliveryEvaluation evaluation;
+    private Boolean meetsDeliveryTarget;
+    private Boolean meetsQualityTarget;
 
-    @Column(nullable = false)
-    private Double score;
+    public Vendor getVendor() { return vendor; }
+    public void setVendor(Vendor vendor) { this.vendor = vendor; }
 
-    @Column(nullable = false)
-    private LocalDateTime calculatedAt;
+    public DeliveryEvaluation getEvaluation() { return evaluation; }
+    public void setEvaluation(DeliveryEvaluation evaluation) { this.evaluation = evaluation; }
 
-    public VendorPerformanceScore() {
-    }
+    public Boolean getMeetsDeliveryTarget() { return meetsDeliveryTarget; }
+    public void setMeetsDeliveryTarget(Boolean meetsDeliveryTarget) { this.meetsDeliveryTarget = meetsDeliveryTarget; }
 
-    public VendorPerformanceScore(Vendor vendor, Double score) {
-        this.vendor = vendor;
-        this.score = score;
-        this.calculatedAt = LocalDateTime.now();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Vendor getVendor() {
-        return vendor;
-    }
-
-    public void setVendor(Vendor vendor) {
-        this.vendor = vendor;
-    }
-
-    public Double getScore() {
-        return score;
-    }
-    public void setOverallScore(double overallScore) {
-        this.score = overallScore;
-    }
-
-    public LocalDateTime getCalculatedAt() {
-        return calculatedAt;
-    }
-
-    public void setCalculatedAt(LocalDateTime calculatedAt) {
-        this.calculatedAt = calculatedAt;
-    }
+    public Boolean getMeetsQualityTarget() { return meetsQualityTarget; }
+    public void setMeetsQualityTarget(Boolean meetsQualityTarget) { this.meetsQualityTarget = meetsQualityTarget; }
 }
