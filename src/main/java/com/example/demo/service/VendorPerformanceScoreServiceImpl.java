@@ -33,13 +33,12 @@ public class VendorPerformanceScoreServiceImpl
     public VendorPerformanceScore calculateScore(Long vendorId) {
 
         Vendor vendor = vendorRepository.findById(vendorId)
-                .orElseThrow(() -> new IllegalArgumentException("not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Vendor not found"));
 
         List<DeliveryEvaluation> evaluations =
                 evaluationRepository.findByVendorId(vendorId);
 
         long total = evaluations.size();
-
         long onTime = evaluations.stream()
                 .filter(DeliveryEvaluation::isMeetsDeliveryTarget)
                 .count();
@@ -58,15 +57,14 @@ public class VendorPerformanceScoreServiceImpl
     @Override
     public VendorPerformanceScore getLatestScore(Long vendorId) {
         return scoreRepository
-                .findByVendorOrderByCalculatedAtDesc(vendorId)
+                .findByVendor_IdOrderByCalculatedAtDesc(vendorId)
                 .stream()
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Score not found"));
     }
 
     @Override
     public List<VendorPerformanceScore> getScoresForVendor(Long vendorId) {
         return scoreRepository.findByVendor_IdOrderByCalculatedAtDesc(vendorId);
-
     }
 }
