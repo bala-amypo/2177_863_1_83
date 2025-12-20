@@ -34,8 +34,7 @@ public class DeliveryEvaluationController {
     }
 
     @GetMapping("/requirement/{requirementId}")
-    public List<DeliveryEvaluation> getByRequirement(
-            @PathVariable Long requirementId) {
+    public List<DeliveryEvaluation> getByRequirement(@PathVariable Long requirementId) {
         return service.getEvaluationsForRequirement(requirementId);
     }
 }
