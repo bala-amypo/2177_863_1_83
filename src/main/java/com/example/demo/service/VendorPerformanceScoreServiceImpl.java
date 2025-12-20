@@ -4,8 +4,10 @@ import com.example.demo.model.DeliveryEvaluation;
 import com.example.demo.model.Vendor;
 import com.example.demo.model.VendorPerformanceScore;
 import com.example.demo.repository.DeliveryEvaluationRepository;
+import com.example.demo.repository.VendorPerformanceScoreRepository;
 import com.example.demo.repository.VendorRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,19 +17,24 @@ public class VendorPerformanceScoreServiceImpl implements VendorPerformanceScore
 
     private final DeliveryEvaluationRepository evaluationRepository;
     private final VendorRepository vendorRepository;
+    private final VendorPerformanceScoreRepository scoreRepository;
 
-    public VendorPerformanceScoreServiceImpl(DeliveryEvaluationRepository evaluationRepository,
-                                             VendorRepository vendorRepository) {
+    public VendorPerformanceScoreServiceImpl(
+            DeliveryEvaluationRepository evaluationRepository,
+            VendorRepository vendorRepository,
+            VendorPerformanceScoreRepository scoreRepository) {
         this.evaluationRepository = evaluationRepository;
         this.vendorRepository = vendorRepository;
+        this.scoreRepository = scoreRepository;
     }
 
     @Override
+    @Transactional
     public VendorPerformanceScore calculateScore(Long vendorId) {
         Vendor vendor = vendorRepository.findById(vendorId)
                 .orElseThrow(() -> new IllegalArgumentException("Vendor not found"));
 
-        List<DeliveryEvaluation> evaluations = evaluationRepository.findByVendor_Id(vendorId); // updated
+        List<DeliveryEvaluation> evaluations = evaluationRepository.findByVendor_Id(vendorId);
 
         DeliveryEvaluation latest = evaluations.stream()
                 .max((e1, e2) -> e1.getEvaluationDate().compareTo(e2.getEvaluationDate()))
@@ -40,21 +47,25 @@ public class VendorPerformanceScoreServiceImpl implements VendorPerformanceScore
         score.setEvaluation(latest);
         score.setMeetsDeliveryTarget(Boolean.TRUE.equals(latest.getMeetsDeliveryTarget()));
         score.setMeetsQualityTarget(Boolean.TRUE.equals(latest.getMeetsQualityTarget()));
+        score.setScoreDate(latest.getEvaluationDate());
 
-        return score;
+        // ✅ Save to DB
+        return scoreRepository.save(score);
     }
 
     @Override
+    @Transactional
     public VendorPerformanceScore getLatestScore(Long vendorId) {
         return calculateScore(vendorId);
     }
 
     @Override
+    @Transactional
     public List<VendorPerformanceScore> getScoresForVendor(Long vendorId) {
         Vendor vendor = vendorRepository.findById(vendorId)
                 .orElseThrow(() -> new IllegalArgumentException("Vendor not found"));
 
-        List<DeliveryEvaluation> evaluations = evaluationRepository.findByVendor_Id(vendorId); // updated
+        List<DeliveryEvaluation> evaluations = evaluationRepository.findByVendor_Id(vendorId);
 
         return evaluations.stream()
                 .map(e -> {
@@ -63,6 +74,7 @@ public class VendorPerformanceScoreServiceImpl implements VendorPerformanceScore
                     score.setEvaluation(e);
                     score.setMeetsDeliveryTarget(Boolean.TRUE.equals(e.getMeetsDeliveryTarget()));
                     score.setMeetsQualityTarget(Boolean.TRUE.equals(e.getMeetsQualityTarget()));
+                    score.setScoreDate(e.getEvaluationDate());
                     return score;
                 })
                 .collect(Collectors.toList());
