@@ -7,75 +7,37 @@ import java.time.LocalDateTime;
 @Table(name = "vendor_performance_scores")
 public class VendorPerformanceScore {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "vendor_id")
-    private Vendor vendor;
+	@ManyToOne
+	private Vendor vendor;
 
-    private Double onTimePercentage;
-    private Double qualityCompliancePercentage;
-    private Double overallScore;
+	private Double onTimePercentage;
+	private Double qualityCompliancePercentage;
+	private Double overallScore;
+	private LocalDateTime calculatedAt;
 
-    private LocalDateTime calculatedAt;
+	public VendorPerformanceScore() {}
 
-    public VendorPerformanceScore(){}
+	public VendorPerformanceScore(Vendor vendor, Double overallScore) {
+		this.vendor = vendor;
+		this.overallScore = overallScore;
+		this.calculatedAt = LocalDateTime.now();
+	}
 
-    public VendorPerformanceScore(Long id,Vendor vendor,Double overallScore){
-    this.id=id;
-    this.vendor=vendor;
-    this.overallScore=overallScore;
-    }
-    
+	public Long getId() {
+		return id;
+	}
+	public Vendor getVendor() {
+		return vendor;
+	}
+	public Double getOverallScore() {
+		return overallScore;
+	}
 
-   
-    public Long getId() {
-        return id;
-    }
-
-    public Vendor getVendor() {
-        return vendor;
-    }
-
-    public void setVendor(Vendor vendor) {
-        this.vendor = vendor;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Double getOnTimePercentage() {
-        return onTimePercentage;
-    }
-
-    public void setOnTimePercentage(Double onTimePercentage) {
-        this.onTimePercentage = onTimePercentage;
-    }
-
-    public Double getQualityCompliancePercentage() {
-        return qualityCompliancePercentage;
-    }
-
-    public void setQualityCompliancePercentage(Double qualityCompliancePercentage) {
-        this.qualityCompliancePercentage = qualityCompliancePercentage;
-    }
-
-    public Double getOverallScore() {
-        return overallScore;
-    }
-
-    public void setOverallScore(Double overallScore) {
-        this.overallScore = overallScore;
-    }
-
-    public LocalDateTime getCalculatedAt() {
-        return calculatedAt;
-    }
-
-    public void setCalculatedAt(LocalDateTime calculatedAt) {
-        this.calculatedAt = calculatedAt;
-    }
+	public void setOverallScore(Double overallScore) {
+		this.overallScore = overallScore;
+	}
 }
