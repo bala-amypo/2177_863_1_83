@@ -7,8 +7,6 @@ import java.util.List;
 
 @Repository
 public interface DeliveryEvaluationRepository extends JpaRepository<DeliveryEvaluation, Long> {
-
     List<DeliveryEvaluation> findByVendor_Id(Long vendorId);
-
-    List<DeliveryEvaluation> findBySlaRequirement_Id(Long requirementId);
+    List<DeliveryEvaluation> findBySlaRequirement_Id(Long slaRequirementId);
 }

@@ -31,7 +31,7 @@ public class DeliveryEvaluationServiceImpl implements DeliveryEvaluationService 
     public DeliveryEvaluation createEvaluation(
             Long vendorId,
             Long slaRequirementId,
-            int actualDeliveryDays,
+            Integer actualDeliveryDays,
             Double qualityScore,
             LocalDate evaluationDate) {
 
