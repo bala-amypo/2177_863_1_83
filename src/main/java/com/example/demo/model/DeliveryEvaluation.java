@@ -26,25 +26,16 @@ public class DeliveryEvaluation {
     private Boolean meetsDeliveryTarget;
     private Boolean meetsQualityTarget;
 
+    // Transient fields for JSON binding
+    @Transient
+    private Long vendorId;
+
+    @Transient
+    private Long slaRequirementId;
+
     public DeliveryEvaluation() {}
 
-    public DeliveryEvaluation(Vendor vendor,
-                              SLARequirement slaRequirement,
-                              Integer actualDeliveryDays,
-                              Double qualityScore,
-                              LocalDate evaluationDate,
-                              Boolean meetsDeliveryTarget,
-                              Boolean meetsQualityTarget) {
-        this.vendor = vendor;
-        this.slaRequirement = slaRequirement;
-        this.actualDeliveryDays = actualDeliveryDays;
-        this.qualityScore = qualityScore;
-        this.evaluationDate = evaluationDate;
-        this.meetsDeliveryTarget = meetsDeliveryTarget;
-        this.meetsQualityTarget = meetsQualityTarget;
-    }
-
-    // Getters
+    // Getters and Setters
     public Long getId() { return id; }
     public Vendor getVendor() { return vendor; }
     public SLARequirement getSlaRequirement() { return slaRequirement; }
@@ -54,7 +45,12 @@ public class DeliveryEvaluation {
     public Boolean getMeetsDeliveryTarget() { return meetsDeliveryTarget; }
     public Boolean getMeetsQualityTarget() { return meetsQualityTarget; }
 
-    // Setters
+    public Long getVendorId() { return vendorId; }
+    public void setVendorId(Long vendorId) { this.vendorId = vendorId; }
+
+    public Long getSlaRequirementId() { return slaRequirementId; }
+    public void setSlaRequirementId(Long slaRequirementId) { this.slaRequirementId = slaRequirementId; }
+
     public void setVendor(Vendor vendor) { this.vendor = vendor; }
     public void setSlaRequirement(SLARequirement slaRequirement) { this.slaRequirement = slaRequirement; }
     public void setActualDeliveryDays(Integer actualDeliveryDays) { this.actualDeliveryDays = actualDeliveryDays; }
