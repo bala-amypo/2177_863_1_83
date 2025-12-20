@@ -1,4 +1,5 @@
-@Service
+ import org.springframework.stereotype.Service;
+ @Service
 public class VendorTierServiceImpl implements VendorTierService {
 
     private final VendorTierRepository repository;
