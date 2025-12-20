@@ -2,69 +2,47 @@ package com.example.demo.service;
 
 import com.example.demo.entity.DeliveryEvaluation;
 import com.example.demo.entity.Vendor;
-import com.example.demo.entity.VendorPerformanceScore;
 import com.example.demo.repository.DeliveryEvaluationRepository;
-import com.example.demo.repository.VendorPerformanceScoreRepository;
 import com.example.demo.repository.VendorRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class VendorPerformanceScoreServiceImpl
-        implements VendorPerformanceScoreService {
+public class VendorPerformanceScoreServiceImpl {
 
-    private final VendorPerformanceScoreRepository scoreRepository;
     private final DeliveryEvaluationRepository evaluationRepository;
     private final VendorRepository vendorRepository;
 
-    public VendorPerformanceScoreServiceImpl(
-            VendorPerformanceScoreRepository scoreRepository,
-            DeliveryEvaluationRepository evaluationRepository,
-            VendorRepository vendorRepository) {
-
-        this.scoreRepository = scoreRepository;
+    public VendorPerformanceScoreServiceImpl(DeliveryEvaluationRepository evaluationRepository,
+                                             VendorRepository vendorRepository) {
         this.evaluationRepository = evaluationRepository;
         this.vendorRepository = vendorRepository;
     }
 
-    @Override
-    public VendorPerformanceScore calculateScore(Long vendorId) {
-
+    public double calculatePerformanceScore(Long vendorId) {
         Vendor vendor = vendorRepository.findById(vendorId)
                 .orElseThrow(() -> new IllegalArgumentException("Vendor not found"));
 
-        List<DeliveryEvaluation> evaluations =
-                evaluationRepository.findByVendorId(vendorId);
+        List<DeliveryEvaluation> evaluations = evaluationRepository.findByVendorId(vendorId);
 
-        long total = evaluations.size();
+        if (evaluations.isEmpty()) return 0.0;
+
         long onTime = evaluations.stream()
-                .filter(DeliveryEvaluation::isMeetsDeliveryTarget)
+                .filter(e -> Boolean.TRUE.equals(e.getMeetsDeliveryTarget()))
                 .count();
 
-        double overallScore =
-                total == 0 ? 0 : (onTime * 100.0) / total;
+        long highQuality = evaluations.stream()
+                .filter(e -> Boolean.TRUE.equals(e.getMeetsQualityTarget()))
+                .count();
 
-        VendorPerformanceScore score = new VendorPerformanceScore();
-        score.setVendor(vendor);
-        score.setOverallScore(overallScore);
-        score.setCalculatedAt(LocalDateTime.now());
+        // Count evaluations that meet both delivery and quality targets
+        long bothTargets = evaluations.stream()
+                .filter(e -> Boolean.TRUE.equals(e.getMeetsDeliveryTarget())
+                          && Boolean.TRUE.equals(e.getMeetsQualityTarget()))
+                .count();
 
-        return scoreRepository.save(score);
-    }
-
-    @Override
-    public VendorPerformanceScore getLatestScore(Long vendorId) {
-        return scoreRepository
-                .findByVendor_IdOrderByCalculatedAtDesc(vendorId)
-                .stream()
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Score not found"));
-    }
-
-    @Override
-    public List<VendorPerformanceScore> getScoresForVendor(Long vendorId) {
-        return scoreRepository.findByVendor_IdOrderByCalculatedAtDesc(vendorId);
+        // Performance score as percentage
+        return (bothTargets * 100.0) / evaluations.size();
     }
 }
