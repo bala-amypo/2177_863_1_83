@@ -2,11 +2,13 @@ package com.example.demo.service;
 
 import com.example.demo.entity.DeliveryEvaluation;
 import com.example.demo.entity.Vendor;
+import com.example.demo.entity.VendorPerformanceScore;
 import com.example.demo.repository.DeliveryEvaluationRepository;
 import com.example.demo.repository.VendorRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class VendorPerformanceScoreServiceImpl implements VendorPerformanceScoreService {
@@ -21,18 +23,21 @@ public class VendorPerformanceScoreServiceImpl implements VendorPerformanceScore
     }
 
     @Override
-    public double calculatePerformanceScore(Long vendorId) {
+    public List<VendorPerformanceScore> getScoresForVendor(Long vendorId) {
         Vendor vendor = vendorRepository.findById(vendorId)
                 .orElseThrow(() -> new IllegalArgumentException("Vendor not found"));
 
         List<DeliveryEvaluation> evaluations = evaluationRepository.findByVendorId(vendorId);
-        if (evaluations.isEmpty()) return 0.0;
 
-        long bothTargets = evaluations.stream()
-                .filter(e -> Boolean.TRUE.equals(e.getMeetsDeliveryTarget())
-                          && Boolean.TRUE.equals(e.getMeetsQualityTarget()))
-                .count();
-
-        return (bothTargets * 100.0) / evaluations.size();
+        return evaluations.stream()
+                .map(e -> {
+                    VendorPerformanceScore score = new VendorPerformanceScore();
+                    score.setVendorId(vendor.getId());
+                    score.setEvaluationId(e.getId());
+                    score.setMeetsDeliveryTarget(Boolean.TRUE.equals(e.getMeetsDeliveryTarget()));
+                    score.setMeetsQualityTarget(Boolean.TRUE.equals(e.getMeetsQualityTarget()));
+                    return score;
+                })
+                .collect(Collectors.toList());
     }
 }
