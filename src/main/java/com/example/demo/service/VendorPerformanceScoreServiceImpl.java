@@ -27,7 +27,7 @@ public class VendorPerformanceScoreServiceImpl implements VendorPerformanceScore
         Vendor vendor = vendorRepository.findById(vendorId)
                 .orElseThrow(() -> new IllegalArgumentException("Vendor not found"));
 
-        List<DeliveryEvaluation> evaluations = evaluationRepository.findByVendorId(vendorId);
+        List<DeliveryEvaluation> evaluations = evaluationRepository.findByVendor_Id(vendorId); // updated
 
         DeliveryEvaluation latest = evaluations.stream()
                 .max((e1, e2) -> e1.getEvaluationDate().compareTo(e2.getEvaluationDate()))
@@ -54,7 +54,7 @@ public class VendorPerformanceScoreServiceImpl implements VendorPerformanceScore
         Vendor vendor = vendorRepository.findById(vendorId)
                 .orElseThrow(() -> new IllegalArgumentException("Vendor not found"));
 
-        List<DeliveryEvaluation> evaluations = evaluationRepository.findByVendorId(vendorId);
+        List<DeliveryEvaluation> evaluations = evaluationRepository.findByVendor_Id(vendorId); // updated
 
         return evaluations.stream()
                 .map(e -> {
