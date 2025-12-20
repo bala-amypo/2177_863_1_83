@@ -29,4 +29,10 @@ public class VendorPerformanceScoreController {
     public VendorPerformanceScore getLatest(@PathVariable Long vendorId) {
         return service.getLatestScore(vendorId);
     }
+
+    // Returns numeric calculated score for the vendor
+    @GetMapping("/calculate/{vendorId}")
+    public double calculate(@PathVariable Long vendorId) {
+        return service.calculateScore(vendorId);
+    }
 }

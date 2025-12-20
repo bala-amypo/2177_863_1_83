@@ -22,6 +22,7 @@ public class VendorPerformanceScoreServiceImpl implements VendorPerformanceScore
         this.vendorRepository = vendorRepository;
     }
 
+    // Returns all performance scores for a vendor
     @Override
     public List<VendorPerformanceScore> getScoresForVendor(Long vendorId) {
         Vendor vendor = vendorRepository.findById(vendorId)
@@ -41,6 +42,7 @@ public class VendorPerformanceScoreServiceImpl implements VendorPerformanceScore
                 .collect(Collectors.toList());
     }
 
+    // Returns the latest performance score for a vendor
     @Override
     public VendorPerformanceScore getLatestScore(Long vendorId) {
         List<DeliveryEvaluation> evaluations = evaluationRepository.findByVendorId(vendorId);
@@ -60,5 +62,20 @@ public class VendorPerformanceScoreServiceImpl implements VendorPerformanceScore
         score.setMeetsQualityTarget(Boolean.TRUE.equals(latest.getMeetsQualityTarget()));
 
         return score;
+    }
+
+    // Calculates numeric performance score (% of evaluations meeting both delivery and quality targets)
+    @Override
+    public double calculateScore(Long vendorId) {
+        List<VendorPerformanceScore> scores = getScoresForVendor(vendorId);
+
+        if (scores.isEmpty()) return 0.0;
+
+        long count = scores.stream()
+                .filter(s -> Boolean.TRUE.equals(s.getMeetsDeliveryTarget())
+                          && Boolean.TRUE.equals(s.getMeetsQualityTarget()))
+                .count();
+
+        return (count * 100.0) / scores.size();
     }
 }
