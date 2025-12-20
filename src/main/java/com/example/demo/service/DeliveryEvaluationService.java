@@ -10,7 +10,7 @@ public interface DeliveryEvaluationService {
     DeliveryEvaluation createEvaluation(
             Long vendorId,
             Long slaRequirementId,
-            Integer actualDeliveryDays,
+            int actualDeliveryDays,
             Double qualityScore,
             LocalDate evaluationDate
     );

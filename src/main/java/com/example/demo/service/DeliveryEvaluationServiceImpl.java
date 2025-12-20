@@ -8,6 +8,9 @@ import com.example.demo.repository.SLARequirementRepository;
 import com.example.demo.repository.VendorRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @Service
 public class DeliveryEvaluationServiceImpl implements DeliveryEvaluationService {
 
@@ -25,36 +28,50 @@ public class DeliveryEvaluationServiceImpl implements DeliveryEvaluationService 
     }
 
     @Override
-    public DeliveryEvaluation createEvaluation(DeliveryEvaluation evaluation) {
+    public DeliveryEvaluation createEvaluation(
+            Long vendorId,
+            Long slaRequirementId,
+            int actualDeliveryDays,
+            Double qualityScore,
+            LocalDate evaluationDate) {
 
-        // 1️⃣ Fetch Vendor from DB
-        Vendor vendor = vendorRepo.findById(
-                evaluation.getVendor().getId()
-        ).orElseThrow(() ->
-                new RuntimeException("Vendor not found")
-        );
+        Vendor vendor = vendorRepo.findById(vendorId)
+                .orElseThrow(() -> new RuntimeException("Vendor not found"));
 
-        // 2️⃣ Fetch SLARequirement from DB
-        SLARequirement sla = slaRepo.findById(
-                evaluation.getSlaRequirement().getId()
-        ).orElseThrow(() ->
-                new RuntimeException("SLA Requirement not found")
-        );
+        SLARequirement sla = slaRepo.findById(slaRequirementId)
+                .orElseThrow(() -> new RuntimeException("SLA Requirement not found"));
 
-        // 3️⃣ Attach managed entities
+        DeliveryEvaluation evaluation = new DeliveryEvaluation();
         evaluation.setVendor(vendor);
         evaluation.setSlaRequirement(sla);
+        evaluation.setActualDeliveryDays(actualDeliveryDays);
+        evaluation.setQualityScore(qualityScore);
+        evaluation.setEvaluationDate(evaluationDate);
 
-        // 4️⃣ Business logic
         evaluation.setMeetsDeliveryTarget(
-                evaluation.getActualDeliveryDays() <= sla.getMaxDeliveryDays()
+                actualDeliveryDays <= sla.getMaxDeliveryDays()
         );
 
         evaluation.setMeetsQualityTarget(
-                evaluation.getQualityScore() >= sla.getMinQualityScore()
+                qualityScore >= sla.getMinQualityScore()
         );
 
-        // 5️⃣ Save
         return evaluationRepo.save(evaluation);
+    }
+
+    @Override
+    public DeliveryEvaluation getEvaluationById(Long id) {
+        return evaluationRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Evaluation not found"));
+    }
+
+    @Override
+    public List<DeliveryEvaluation> getEvaluationsForVendor(Long vendorId) {
+        return evaluationRepo.findByVendorId(vendorId);
+    }
+
+    @Override
+    public List<DeliveryEvaluation> getEvaluationsForRequirement(Long requirementId) {
+        return evaluationRepo.findBySlaRequirementId(requirementId);
     }
 }

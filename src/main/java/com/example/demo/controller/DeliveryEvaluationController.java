@@ -25,7 +25,8 @@ public class DeliveryEvaluationController {
             throw new IllegalArgumentException("Vendor ID is required");
         }
 
-        if (evaluation.getSlaRequirement() == null || evaluation.getSlaRequirement().getId() == null) {
+        if (evaluation.getSlaRequirement() == null ||
+            evaluation.getSlaRequirement().getId() == null) {
             throw new IllegalArgumentException("SLA Requirement ID is required");
         }
 
@@ -33,7 +34,7 @@ public class DeliveryEvaluationController {
                 evaluation.getVendor().getId(),
                 evaluation.getSlaRequirement().getId(),
                 evaluation.getActualDeliveryDays(),
-                evaluation.getQualityScore(),
+                evaluation.getQualityScore(),   // ✅ Double
                 evaluation.getEvaluationDate()
         );
     }
@@ -49,7 +50,8 @@ public class DeliveryEvaluationController {
     }
 
     @GetMapping("/requirement/{requirementId}")
-    public List<DeliveryEvaluation> getByRequirement(@PathVariable Long requirementId) {
+    public List<DeliveryEvaluation> getByRequirement(
+            @PathVariable Long requirementId) {
         return service.getEvaluationsForRequirement(requirementId);
     }
 }
