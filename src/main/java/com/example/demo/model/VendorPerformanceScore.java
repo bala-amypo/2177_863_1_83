@@ -10,15 +10,46 @@ public class VendorPerformanceScore {
     private Boolean meetsDeliveryTarget;
     private Boolean meetsQualityTarget;
 
-    public Vendor getVendor() { return vendor; }
-    public void setVendor(Vendor vendor) { this.vendor = vendor; }
+    public VendorPerformanceScore() {
+    }
 
-    public DeliveryEvaluation getEvaluation() { return evaluation; }
-    public void setEvaluation(DeliveryEvaluation evaluation) { this.evaluation = evaluation; }
+    public VendorPerformanceScore(Vendor vendor, DeliveryEvaluation evaluation,
+                                  Boolean meetsDeliveryTarget, Boolean meetsQualityTarget) {
+        this.vendor = vendor;
+        this.evaluation = evaluation;
+        this.meetsDeliveryTarget = meetsDeliveryTarget;
+        this.meetsQualityTarget = meetsQualityTarget;
+    }
 
-    public Boolean getMeetsDeliveryTarget() { return meetsDeliveryTarget; }
-    public void setMeetsDeliveryTarget(Boolean meetsDeliveryTarget) { this.meetsDeliveryTarget = meetsDeliveryTarget; }
+    public Vendor getVendor() {
+        return vendor;
+    }
 
-    public Boolean getMeetsQualityTarget() { return meetsQualityTarget; }
-    public void setMeetsQualityTarget(Boolean meetsQualityTarget) { this.meetsQualityTarget = meetsQualityTarget; }
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
+    }
+
+    public DeliveryEvaluation getEvaluation() {
+        return evaluation;
+    }
+
+    public void setEvaluation(DeliveryEvaluation evaluation) {
+        this.evaluation = evaluation;
+    }
+
+    public Boolean getMeetsDeliveryTarget() {
+        return meetsDeliveryTarget;
+    }
+
+    public void setMeetsDeliveryTarget(Boolean meetsDeliveryTarget) {
+        this.meetsDeliveryTarget = meetsDeliveryTarget;
+    }
+
+    public Boolean getMeetsQualityTarget() {
+        return meetsQualityTarget;
+    }
+
+    public void setMeetsQualityTarget(Boolean meetsQualityTarget) {
+        this.meetsQualityTarget = meetsQualityTarget;
+    }
 }
