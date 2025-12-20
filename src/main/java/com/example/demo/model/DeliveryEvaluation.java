@@ -1,22 +1,26 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "delivery_evaluations")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class DeliveryEvaluation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "vendor_id")
+    @JsonIgnoreProperties({"deliveryEvaluations"})
     private Vendor vendor;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "sla_requirement_id")
+    @JsonIgnoreProperties({"deliveryEvaluations"})
     private SLARequirement slaRequirement;
 
     private Integer actualDeliveryDays;
@@ -26,7 +30,7 @@ public class DeliveryEvaluation {
     private Boolean meetsDeliveryTarget;
     private Boolean meetsQualityTarget;
 
-    // ===== Getters =====
+    // Getters & Setters
     public Long getId() { return id; }
     public Vendor getVendor() { return vendor; }
     public SLARequirement getSlaRequirement() { return slaRequirement; }
@@ -36,7 +40,6 @@ public class DeliveryEvaluation {
     public Boolean getMeetsDeliveryTarget() { return meetsDeliveryTarget; }
     public Boolean getMeetsQualityTarget() { return meetsQualityTarget; }
 
-    // ===== Setters =====
     public void setVendor(Vendor vendor) { this.vendor = vendor; }
     public void setSlaRequirement(SLARequirement slaRequirement) { this.slaRequirement = slaRequirement; }
     public void setActualDeliveryDays(Integer actualDeliveryDays) { this.actualDeliveryDays = actualDeliveryDays; }
