@@ -1,22 +1,26 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "vendor_performance_scores")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class VendorPerformanceScore {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vendor_id", nullable = false)
+    @JsonIgnoreProperties({"deliveryEvaluations"})
     private Vendor vendor;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "evaluation_id", nullable = false)
+    @JsonIgnoreProperties({"vendor", "slaRequirement"})
     private DeliveryEvaluation evaluation;
 
     @Column(name = "meets_delivery_target")
@@ -28,7 +32,7 @@ public class VendorPerformanceScore {
     @Column(name = "score_date")
     private LocalDate scoreDate;
 
-    // Getters and setters
+    // Getters and setters...
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

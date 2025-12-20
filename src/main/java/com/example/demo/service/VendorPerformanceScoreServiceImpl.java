@@ -49,7 +49,6 @@ public class VendorPerformanceScoreServiceImpl implements VendorPerformanceScore
         score.setMeetsQualityTarget(Boolean.TRUE.equals(latest.getMeetsQualityTarget()));
         score.setScoreDate(latest.getEvaluationDate());
 
-        // ✅ Save to DB
         return scoreRepository.save(score);
     }
 
