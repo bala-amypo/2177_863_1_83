@@ -1,7 +1,8 @@
-package com.example.demo.entity;
+package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "sla_requirements")
 public class SLARequirement {
