@@ -1,6 +1,18 @@
- import org.springframework.stereotype.Service;
- @Service
-public class DeliveryEvaluationServiceImpl implements DeliveryEvaluationService {
+package com.example.demo.service;
+
+import com.example.demo.entity.DeliveryEvaluation;
+import com.example.demo.entity.SLARequirement;
+import com.example.demo.entity.Vendor;
+import com.example.demo.repository.DeliveryEvaluationRepository;
+import com.example.demo.repository.SLARequirementRepository;
+import com.example.demo.repository.VendorRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class DeliveryEvaluationServiceImpl
+        implements DeliveryEvaluationService {
 
     private final DeliveryEvaluationRepository evaluationRepository;
     private final VendorRepository vendorRepository;
@@ -19,10 +31,11 @@ public class DeliveryEvaluationServiceImpl implements DeliveryEvaluationService 
     @Override
     public DeliveryEvaluation createEvaluation(DeliveryEvaluation evaluation) {
 
-        Vendor vendor = vendorRepository.findById(evaluation.getVendor().getId())
+        Vendor vendor = vendorRepository.findById(
+                evaluation.getVendor().getId())
                 .orElseThrow(() -> new IllegalArgumentException("not found"));
 
-        if (!vendor.isActive()) {
+        if (!vendor.getActive()) {
             throw new IllegalStateException("active vendors");
         }
 
@@ -30,7 +43,8 @@ public class DeliveryEvaluationServiceImpl implements DeliveryEvaluationService 
             throw new IllegalArgumentException(">= 0");
         }
 
-        if (evaluation.getQualityScore() < 0 || evaluation.getQualityScore() > 100) {
+        if (evaluation.getQualityScore() < 0 ||
+            evaluation.getQualityScore() > 100) {
             throw new IllegalArgumentException("Quality score between 0 and 100");
         }
 
@@ -39,11 +53,29 @@ public class DeliveryEvaluationServiceImpl implements DeliveryEvaluationService 
                 .orElseThrow(() -> new IllegalArgumentException("not found"));
 
         evaluation.setMeetsDeliveryTarget(
-                evaluation.getActualDeliveryDays() <= sla.getMaxDeliveryDays());
+                evaluation.getActualDeliveryDays()
+                        <= sla.getMaxDeliveryDays());
 
         evaluation.setMeetsQualityTarget(
-                evaluation.getQualityScore() >= sla.getMinQualityScore());
+                evaluation.getQualityScore()
+                        >= sla.getMinQualityScore());
 
         return evaluationRepository.save(evaluation);
+    }
+
+    @Override
+    public DeliveryEvaluation getEvaluationById(Long id) {
+        return evaluationRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("not found"));
+    }
+
+    @Override
+    public List<DeliveryEvaluation> getEvaluationsForVendor(Long vendorId) {
+        return evaluationRepository.findByVendorId(vendorId);
+    }
+
+    @Override
+    public List<DeliveryEvaluation> getEvaluationsForRequirement(Long requirementId) {
+        return evaluationRepository.findBySlaRequirementId(requirementId);
     }
 }
