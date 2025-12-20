@@ -1,6 +1,14 @@
- import org.springframework.stereotype.Service;
- @Service
-public class VendorTierServiceImpl implements VendorTierService {
+package com.example.demo.service;
+
+import com.example.demo.entity.VendorTier;
+import com.example.demo.repository.VendorTierRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class VendorTierServiceImpl
+        implements VendorTierService {
 
     private final VendorTierRepository repository;
 
@@ -10,6 +18,10 @@ public class VendorTierServiceImpl implements VendorTierService {
 
     @Override
     public VendorTier createTier(VendorTier tier) {
+
+        if (repository.existsByTierName(tier.getTierName())) {
+            throw new IllegalArgumentException("unique");
+        }
 
         if (tier.getMinScoreThreshold() < 0 ||
             tier.getMinScoreThreshold() > 100) {
@@ -21,8 +33,27 @@ public class VendorTierServiceImpl implements VendorTierService {
     }
 
     @Override
+    public VendorTier updateTier(Long id, VendorTier tier) {
+        VendorTier existing = getTierById(id);
+        existing.setActive(tier.getActive());
+        return repository.save(existing);
+    }
+
+    @Override
     public VendorTier getTierById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("not found"));
+    }
+
+    @Override
+    public List<VendorTier> getAllTiers() {
+        return repository.findAll();
+    }
+
+    @Override
+    public void deactivateTier(Long id) {
+        VendorTier tier = getTierById(id);
+        tier.setActive(false);
+        repository.save(tier);
     }
 }

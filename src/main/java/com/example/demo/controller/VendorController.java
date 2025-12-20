@@ -12,34 +12,35 @@ import java.util.List;
 @Tag(name = "Vendor API")
 public class VendorController {
 
-    private final VendorService vendorService;
+    private final VendorService service;
 
-    public VendorController(VendorService vendorService) {
-        this.vendorService = vendorService;
+    public VendorController(VendorService service) {
+        this.service = service;
     }
 
     @PostMapping
-    public Vendor createVendor(@RequestBody Vendor vendor) {
-        return vendorService.createVendor(vendor);
+    public Vendor create(@RequestBody Vendor vendor) {
+        return service.createVendor(vendor);
     }
 
     @PutMapping("/{id}")
-    public Vendor updateVendor(@PathVariable Long id, @RequestBody Vendor vendor) {
-        return vendorService.updateVendor(id, vendor);
+    public Vendor update(@PathVariable Long id,
+                         @RequestBody Vendor vendor) {
+        return service.updateVendor(id, vendor);
     }
 
     @GetMapping("/{id}")
-    public Vendor getVendor(@PathVariable Long id) {
-        return vendorService.getVendorById(id);
+    public Vendor getById(@PathVariable Long id) {
+        return service.getVendorById(id);
     }
 
     @GetMapping
-    public List<Vendor> getAllVendors() {
-        return vendorService.getAllVendors();
+    public List<Vendor> getAll() {
+        return service.getAllVendors();
     }
 
     @PutMapping("/{id}/deactivate")
-    public void deactivateVendor(@PathVariable Long id) {
-        vendorService.deactivateVendor(id);
+    public void deactivate(@PathVariable Long id) {
+        service.deactivateVendor(id);
     }
 }

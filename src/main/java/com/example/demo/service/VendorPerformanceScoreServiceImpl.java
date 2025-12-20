@@ -1,4 +1,15 @@
-import org.springframework.stereotype.Service; 
+package com.example.demo.service;
+
+import com.example.demo.entity.DeliveryEvaluation;
+import com.example.demo.entity.Vendor;
+import com.example.demo.entity.VendorPerformanceScore;
+import com.example.demo.repository.DeliveryEvaluationRepository;
+import com.example.demo.repository.VendorPerformanceScoreRepository;
+import com.example.demo.repository.VendorRepository;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class VendorPerformanceScoreServiceImpl
@@ -7,18 +18,15 @@ public class VendorPerformanceScoreServiceImpl
     private final VendorPerformanceScoreRepository scoreRepository;
     private final DeliveryEvaluationRepository evaluationRepository;
     private final VendorRepository vendorRepository;
-    private final VendorTierRepository vendorTierRepository;
 
     public VendorPerformanceScoreServiceImpl(
             VendorPerformanceScoreRepository scoreRepository,
             DeliveryEvaluationRepository evaluationRepository,
-            VendorRepository vendorRepository,
-            VendorTierRepository vendorTierRepository) {
+            VendorRepository vendorRepository) {
 
         this.scoreRepository = scoreRepository;
         this.evaluationRepository = evaluationRepository;
         this.vendorRepository = vendorRepository;
-        this.vendorTierRepository = vendorTierRepository;
     }
 
     @Override
@@ -31,16 +39,34 @@ public class VendorPerformanceScoreServiceImpl
                 evaluationRepository.findByVendorId(vendorId);
 
         long total = evaluations.size();
+
         long onTime = evaluations.stream()
                 .filter(DeliveryEvaluation::isMeetsDeliveryTarget)
                 .count();
 
-        double scoreValue = total == 0 ? 0 : (onTime * 100.0) / total;
+        double overallScore =
+                total == 0 ? 0 : (onTime * 100.0) / total;
 
         VendorPerformanceScore score = new VendorPerformanceScore();
         score.setVendor(vendor);
-        score.setOverallScore(scoreValue);
+        score.setOverallScore(overallScore);
+        score.setCalculatedAt(LocalDateTime.now());
 
         return scoreRepository.save(score);
+    }
+
+    @Override
+    public VendorPerformanceScore getLatestScore(Long vendorId) {
+        return scoreRepository
+                .findByVendorOrderByCalculatedAtDesc(vendorId)
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("not found"));
+    }
+
+    @Override
+    public List<VendorPerformanceScore> getScoresForVendor(Long vendorId) {
+        return scoreRepository
+                .findByVendorOrderByCalculatedAtDesc(vendorId);
     }
 }
