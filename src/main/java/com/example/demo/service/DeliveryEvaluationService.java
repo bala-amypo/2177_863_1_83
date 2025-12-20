@@ -1,17 +1,19 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.DeliveryEvaluation;
+
 import java.time.LocalDate;
 import java.util.List;
 
 public interface DeliveryEvaluationService {
 
-    // Updated to accept IDs and other fields instead of full objects
-    DeliveryEvaluation createEvaluation(Long vendorId,
-                                        Long slaRequirementId,
-                                        Integer actualDeliveryDays,
-                                        Double qualityScore,
-                                        LocalDate evaluationDate);
+    DeliveryEvaluation createEvaluation(
+            Long vendorId,
+            Long slaRequirementId,
+            Integer actualDeliveryDays,
+            Double qualityScore,
+            LocalDate evaluationDate
+    );
 
     DeliveryEvaluation getEvaluationById(Long id);
 

@@ -21,7 +21,14 @@ public class DeliveryEvaluationController {
     @PostMapping
     public DeliveryEvaluation create(@RequestBody DeliveryEvaluation evaluation) {
 
-        // ✅ Read IDs from nested entities (NO DTO)
+        if (evaluation.getVendor() == null || evaluation.getVendor().getId() == null) {
+            throw new IllegalArgumentException("Vendor ID is required");
+        }
+
+        if (evaluation.getSlaRequirement() == null || evaluation.getSlaRequirement().getId() == null) {
+            throw new IllegalArgumentException("SLA Requirement ID is required");
+        }
+
         return service.createEvaluation(
                 evaluation.getVendor().getId(),
                 evaluation.getSlaRequirement().getId(),

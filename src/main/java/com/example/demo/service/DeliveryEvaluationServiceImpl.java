@@ -18,44 +18,39 @@ public class DeliveryEvaluationServiceImpl implements DeliveryEvaluationService 
     private final VendorRepository vendorRepository;
     private final SLARequirementRepository slaRepository;
 
-    public DeliveryEvaluationServiceImpl(DeliveryEvaluationRepository evaluationRepository,
-                                         VendorRepository vendorRepository,
-                                         SLARequirementRepository slaRepository) {
+    public DeliveryEvaluationServiceImpl(
+            DeliveryEvaluationRepository evaluationRepository,
+            VendorRepository vendorRepository,
+            SLARequirementRepository slaRepository
+    ) {
         this.evaluationRepository = evaluationRepository;
         this.vendorRepository = vendorRepository;
         this.slaRepository = slaRepository;
     }
 
     @Override
-    public DeliveryEvaluation createEvaluation(Long vendorId,
-                                               Long slaRequirementId,
-                                               Integer actualDeliveryDays,
-                                               Double qualityScore,
-                                               LocalDate evaluationDate) {
+    public DeliveryEvaluation createEvaluation(
+            Long vendorId,
+            Long slaRequirementId,
+            Integer actualDeliveryDays,
+            Double qualityScore,
+            LocalDate evaluationDate
+    ) {
 
         Vendor vendor = vendorRepository.findById(vendorId)
-                .orElseThrow(() -> new IllegalArgumentException("Vendor not found with id: " + vendorId));
-        if (!vendor.getActive()) {
-            throw new IllegalStateException("Vendor is not active");
-        }
+                .orElseThrow(() -> new IllegalArgumentException("Vendor not found"));
+
+        if (!vendor.getActive())
+            throw new IllegalStateException("Vendor is inactive");
 
         SLARequirement sla = slaRepository.findById(slaRequirementId)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "SLA Requirement not found with id: " + slaRequirementId));
-        if (!sla.getActive()) {
-            throw new IllegalStateException("SLA Requirement is not active");
-        }
+                .orElseThrow(() -> new IllegalArgumentException("SLA Requirement not found"));
 
-        if (actualDeliveryDays == null || actualDeliveryDays < 0) {
-            throw new IllegalArgumentException("Actual delivery days must be >= 0");
-        }
-        if (qualityScore == null || qualityScore < 0 || qualityScore > 100) {
-            throw new IllegalArgumentException("Quality score must be between 0 and 100");
-        }
+        if (!sla.getActive())
+            throw new IllegalStateException("SLA Requirement is inactive");
 
-        if (evaluationDate == null) {
+        if (evaluationDate == null)
             evaluationDate = LocalDate.now();
-        }
 
         DeliveryEvaluation evaluation = new DeliveryEvaluation();
         evaluation.setVendor(vendor);
@@ -73,7 +68,7 @@ public class DeliveryEvaluationServiceImpl implements DeliveryEvaluationService 
     @Override
     public DeliveryEvaluation getEvaluationById(Long id) {
         return evaluationRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Evaluation not found with id: " + id));
+                .orElseThrow(() -> new IllegalArgumentException("Evaluation not found"));
     }
 
     @Override
