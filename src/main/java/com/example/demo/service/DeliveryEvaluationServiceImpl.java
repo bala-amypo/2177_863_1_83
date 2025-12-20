@@ -8,76 +8,53 @@ import com.example.demo.repository.SLARequirementRepository;
 import com.example.demo.repository.VendorRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.List;
-
 @Service
 public class DeliveryEvaluationServiceImpl implements DeliveryEvaluationService {
 
-    private final DeliveryEvaluationRepository evaluationRepository;
-    private final VendorRepository vendorRepository;
-    private final SLARequirementRepository slaRepository;
+    private final DeliveryEvaluationRepository evaluationRepo;
+    private final VendorRepository vendorRepo;
+    private final SLARequirementRepository slaRepo;
 
     public DeliveryEvaluationServiceImpl(
-            DeliveryEvaluationRepository evaluationRepository,
-            VendorRepository vendorRepository,
-            SLARequirementRepository slaRepository
-    ) {
-        this.evaluationRepository = evaluationRepository;
-        this.vendorRepository = vendorRepository;
-        this.slaRepository = slaRepository;
+            DeliveryEvaluationRepository evaluationRepo,
+            VendorRepository vendorRepo,
+            SLARequirementRepository slaRepo) {
+        this.evaluationRepo = evaluationRepo;
+        this.vendorRepo = vendorRepo;
+        this.slaRepo = slaRepo;
     }
 
     @Override
-    public DeliveryEvaluation createEvaluation(
-            Long vendorId,
-            Long slaRequirementId,
-            Integer actualDeliveryDays,
-            Double qualityScore,
-            LocalDate evaluationDate
-    ) {
+    public DeliveryEvaluation createEvaluation(DeliveryEvaluation evaluation) {
 
-        Vendor vendor = vendorRepository.findById(vendorId)
-                .orElseThrow(() -> new IllegalArgumentException("Vendor not found"));
+        // 1️⃣ Fetch Vendor from DB
+        Vendor vendor = vendorRepo.findById(
+                evaluation.getVendor().getId()
+        ).orElseThrow(() ->
+                new RuntimeException("Vendor not found")
+        );
 
-        if (!vendor.getActive())
-            throw new IllegalStateException("Vendor is inactive");
+        // 2️⃣ Fetch SLARequirement from DB
+        SLARequirement sla = slaRepo.findById(
+                evaluation.getSlaRequirement().getId()
+        ).orElseThrow(() ->
+                new RuntimeException("SLA Requirement not found")
+        );
 
-        SLARequirement sla = slaRepository.findById(slaRequirementId)
-                .orElseThrow(() -> new IllegalArgumentException("SLA Requirement not found"));
-
-        if (!sla.getActive())
-            throw new IllegalStateException("SLA Requirement is inactive");
-
-        if (evaluationDate == null)
-            evaluationDate = LocalDate.now();
-
-        DeliveryEvaluation evaluation = new DeliveryEvaluation();
+        // 3️⃣ Attach managed entities
         evaluation.setVendor(vendor);
         evaluation.setSlaRequirement(sla);
-        evaluation.setActualDeliveryDays(actualDeliveryDays);
-        evaluation.setQualityScore(qualityScore);
-        evaluation.setEvaluationDate(evaluationDate);
 
-        evaluation.setMeetsDeliveryTarget(actualDeliveryDays <= sla.getMaxDeliveryDays());
-        evaluation.setMeetsQualityTarget(qualityScore >= sla.getMinQualityScore());
+        // 4️⃣ Business logic
+        evaluation.setMeetsDeliveryTarget(
+                evaluation.getActualDeliveryDays() <= sla.getMaxDeliveryDays()
+        );
 
-        return evaluationRepository.save(evaluation);
-    }
+        evaluation.setMeetsQualityTarget(
+                evaluation.getQualityScore() >= sla.getMinQualityScore()
+        );
 
-    @Override
-    public DeliveryEvaluation getEvaluationById(Long id) {
-        return evaluationRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Evaluation not found"));
-    }
-
-    @Override
-    public List<DeliveryEvaluation> getEvaluationsForVendor(Long vendorId) {
-        return evaluationRepository.findByVendor_Id(vendorId);
-    }
-
-    @Override
-    public List<DeliveryEvaluation> getEvaluationsForRequirement(Long requirementId) {
-        return evaluationRepository.findBySlaRequirement_Id(requirementId);
+        // 5️⃣ Save
+        return evaluationRepo.save(evaluation);
     }
 }
