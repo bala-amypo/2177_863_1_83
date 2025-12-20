@@ -14,26 +14,19 @@ public class VendorPerformanceScoreController {
 
     private final VendorPerformanceScoreService service;
 
-    public VendorPerformanceScoreController(
-            VendorPerformanceScoreService service) {
+    public VendorPerformanceScoreController(VendorPerformanceScoreService service) {
         this.service = service;
     }
 
-    @PostMapping("/calculate/{vendorId}")
-    public VendorPerformanceScore calculate(
-            @PathVariable Long vendorId) {
-        return service.calculateScore(vendorId);
-    }
-
-    @GetMapping("/latest/{vendorId}")
-    public VendorPerformanceScore getLatest(
-            @PathVariable Long vendorId) {
-        return service.getLatestScore(vendorId);
-    }
-
+    // Returns all scores for the vendor (history)
     @GetMapping("/vendor/{vendorId}")
-    public List<VendorPerformanceScore> getHistory(
-            @PathVariable Long vendorId) {
+    public List<VendorPerformanceScore> getHistory(@PathVariable Long vendorId) {
         return service.getScoresForVendor(vendorId);
+    }
+
+    // Returns the latest score for the vendor
+    @GetMapping("/latest/{vendorId}")
+    public VendorPerformanceScore getLatest(@PathVariable Long vendorId) {
+        return service.getLatestScore(vendorId);
     }
 }
