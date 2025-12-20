@@ -4,7 +4,7 @@ import com.example.demo.entity.VendorPerformanceScore;
 import java.util.List;
 
 public interface VendorPerformanceScoreService {
-
+    double calculatePerformanceScore(Long vendorId);
     VendorPerformanceScore calculateScore(Long vendorId);
 
     VendorPerformanceScore getLatestScore(Long vendorId);
