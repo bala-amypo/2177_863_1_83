@@ -20,10 +20,11 @@ public class DeliveryEvaluationController {
 
     @PostMapping
     public DeliveryEvaluation create(@RequestBody DeliveryEvaluation evaluation) {
-        // Use transient IDs to call the service
+
+        // ✅ Read IDs from nested entities (NO DTO)
         return service.createEvaluation(
-                evaluation.getVendorId(),
-                evaluation.getSlaRequirementId(),
+                evaluation.getVendor().getId(),
+                evaluation.getSlaRequirement().getId(),
                 evaluation.getActualDeliveryDays(),
                 evaluation.getQualityScore(),
                 evaluation.getEvaluationDate()
