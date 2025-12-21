@@ -32,10 +32,10 @@ public class VendorPerformanceScore {
     @Column(name = "score_date")
     private LocalDate scoreDate;
 
-    @Column(name = "score") // Add this column in the DB as well
+    @Column(name = "score") 
     private Double score;
 
-    // Getters and setters
+    
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

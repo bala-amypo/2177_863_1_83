@@ -45,7 +45,7 @@ public class Vendor {
         updatedAt = LocalDateTime.now();
     }
 
-    // Getters
+    
     public Long getId() { return id; }
     public String getName() { return name; }
     public String getContactEmail() { return contactEmail; }
@@ -54,7 +54,7 @@ public class Vendor {
     public LocalDateTime getCreatedAt() { return createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }
 
-    // Setters
+   
     public void setId(Long id) { this.id = id; }
     public void setName(String name) { this.name = name; }
     public void setContactEmail(String contactEmail) { this.contactEmail = contactEmail; }

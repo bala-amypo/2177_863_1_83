@@ -36,7 +36,7 @@ public class SLARequirement {
         this.active = active;
     }
 
-    // Getters
+    
     public Long getId() { return id; }
     public String getRequirementName() { return requirementName; }
     public String getDescription() { return description; }
@@ -44,7 +44,7 @@ public class SLARequirement {
     public Double getMinQualityScore() { return minQualityScore; }
     public Boolean getActive() { return active; }
 
-    // Setters
+    
     public void setRequirementName(String requirementName) { this.requirementName = requirementName; }
     public void setDescription(String description) { this.description = description; }
     public void setMaxDeliveryDays(Integer maxDeliveryDays) { this.maxDeliveryDays = maxDeliveryDays; }

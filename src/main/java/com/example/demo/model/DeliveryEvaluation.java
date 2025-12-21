@@ -45,7 +45,7 @@ public class DeliveryEvaluation {
         this.meetsQualityTarget = meetsQualityTarget;
     }
 
-    // Getters & Setters
+    
     public Long getId() { return id; }
     public Vendor getVendor() { return vendor; }
     public SLARequirement getSlaRequirement() { return slaRequirement; }

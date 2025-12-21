@@ -35,14 +35,14 @@ public class DeliveryEvaluationServiceImpl implements DeliveryEvaluationService 
             Double qualityScore,
             LocalDate evaluationDate) {
 
-        // ✅ Fetch managed Vendor & SLARequirement from DB
+        
         Vendor vendor = vendorRepo.findById(vendorId)
                 .orElseThrow(() -> new RuntimeException("Vendor not found"));
 
         SLARequirement sla = slaRepo.findById(slaRequirementId)
                 .orElseThrow(() -> new RuntimeException("SLA Requirement not found"));
 
-        // ✅ Create DeliveryEvaluation object
+        
         DeliveryEvaluation evaluation = new DeliveryEvaluation();
         evaluation.setVendor(vendor);
         evaluation.setSlaRequirement(sla);
@@ -50,11 +50,11 @@ public class DeliveryEvaluationServiceImpl implements DeliveryEvaluationService 
         evaluation.setQualityScore(qualityScore);
         evaluation.setEvaluationDate(evaluationDate);
 
-        // ✅ Apply business logic
+        
         evaluation.setMeetsDeliveryTarget(actualDeliveryDays <= sla.getMaxDeliveryDays());
         evaluation.setMeetsQualityTarget(qualityScore >= sla.getMinQualityScore());
 
-        // ✅ Save and return
+        
         return evaluationRepo.save(evaluation);
     }
 
