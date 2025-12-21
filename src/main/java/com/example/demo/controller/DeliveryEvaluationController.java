@@ -37,7 +37,7 @@ public class DeliveryEvaluationController {
                     evaluation.getEvaluationDate()
             );
         } catch (Exception e) {
-            e.printStackTrace(); // logs the real exception to the console
+            e.printStackTrace(); 
             throw e;
         }
     }
