@@ -49,7 +49,7 @@ public class VendorPerformanceScoreServiceImpl implements VendorPerformanceScore
         score.setMeetsQualityTarget(Boolean.TRUE.equals(latest.getMeetsQualityTarget()));
         score.setScoreDate(latest.getEvaluationDate());
 
-        // ✅ Calculate and set the score to avoid DB NOT NULL error
+        
         double calculatedScore = computeScore(latest);
         score.setScore(calculatedScore);
 
@@ -79,7 +79,7 @@ public class VendorPerformanceScoreServiceImpl implements VendorPerformanceScore
                     score.setMeetsQualityTarget(Boolean.TRUE.equals(e.getMeetsQualityTarget()));
                     score.setScoreDate(e.getEvaluationDate());
 
-                    // Set the calculated score for each evaluation
+                    
                     score.setScore(computeScore(e));
 
                     return score;
@@ -91,13 +91,13 @@ public class VendorPerformanceScoreServiceImpl implements VendorPerformanceScore
         double score = 0.0;
 
         if (evaluation.getMeetsDeliveryTarget() != null && evaluation.getMeetsDeliveryTarget()) {
-            score += 50; // weight for delivery
+            score += 50; 
         }
         if (evaluation.getMeetsQualityTarget() != null && evaluation.getMeetsQualityTarget()) {
-            score += 50; // weight for quality
+            score += 50; 
         }
 
-        // Optionally, you can factor in qualityScore / actualDeliveryDays, etc.
+        
         return score;
     }
 }
