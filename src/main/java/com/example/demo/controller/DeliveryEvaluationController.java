@@ -20,7 +20,7 @@ public class DeliveryEvaluationController {
     
     @PostMapping
     public DeliveryEvaluation create(@RequestBody DeliveryEvaluation evaluation) {
-        try {
+       
             if (evaluation.getVendor() == null || evaluation.getVendor().getId() == null) {
                 throw new IllegalArgumentException("Vendor ID is required");
             }
