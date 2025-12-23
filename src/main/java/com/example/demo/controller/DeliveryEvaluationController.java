@@ -36,10 +36,7 @@ public class DeliveryEvaluationController {
                     evaluation.getQualityScore(),
                     evaluation.getEvaluationDate()
             );
-        } catch (Exception e) {
-            e.printStackTrace(); 
-            throw e;
-        }
+        
     }
 
     @GetMapping("/{id}")
