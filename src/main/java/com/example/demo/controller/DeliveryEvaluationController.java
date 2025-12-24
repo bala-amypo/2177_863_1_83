@@ -58,4 +58,3 @@ public class DeliveryEvaluationController {
     }
 }
 
-give the globalexception for this
