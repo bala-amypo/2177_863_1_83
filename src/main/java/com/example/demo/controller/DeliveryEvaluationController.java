@@ -20,7 +20,7 @@ public class DeliveryEvaluationController {
     
     @PostMapping
     public DeliveryEvaluation create(@RequestBody DeliveryEvaluation evaluation) {
-       
+        try {
             if (evaluation.getVendor() == null || evaluation.getVendor().getId() == null) {
                 throw new IllegalArgumentException("Vendor ID is required");
             }
@@ -36,7 +36,10 @@ public class DeliveryEvaluationController {
                     evaluation.getQualityScore(),
                     evaluation.getEvaluationDate()
             );
-        
+        } catch (Exception e) {
+            e.printStackTrace(); 
+            throw e;
+        }
     }
 
     @GetMapping("/{id}")
@@ -54,3 +57,5 @@ public class DeliveryEvaluationController {
         return service.getEvaluationsForRequirement(requirementId);
     }
 }
+
+give the globalexception for this
