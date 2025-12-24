@@ -14,7 +14,7 @@ public interface DeliveryEvaluationRepository extends JpaRepository<DeliveryEval
 
     List<DeliveryEvaluation> findBySlaRequirementId(Long slaId);
 
-     @Query
+     
     @Query("""
            SELECT d FROM DeliveryEvaluation d
            WHERE d.vendor = :vendor
@@ -25,7 +25,7 @@ public interface DeliveryEvaluationRepository extends JpaRepository<DeliveryEval
             @Param("minScore") Double minScore
     );
 
-    @Query
+    
     @Query("""
            SELECT d FROM DeliveryEvaluation d
            WHERE d.slaRequirement = :sla
