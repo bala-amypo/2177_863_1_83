@@ -1,29 +1,29 @@
-// //*package com.example.demo.security;
+//*package com.example.demo.security;
 
-// import jakarta.servlet.*;
-// import jakarta.servlet.http.HttpServletRequest;
-// import java.io.IOException;
+import jakarta.servlet.*;
+import jakarta.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
-// public class JwtAuthenticationFilter implements Filter {
+public class JwtAuthenticationFilter implements Filter {
 
-//     private final JwtTokenProvider tokenProvider;
+    private final JwtTokenProvider tokenProvider;
 
-//     public JwtAuthenticationFilter(JwtTokenProvider tokenProvider) {
-//         this.tokenProvider = tokenProvider;
-//     }
+    public JwtAuthenticationFilter(JwtTokenProvider tokenProvider) {
+        this.tokenProvider = tokenProvider;
+    }
 
-//     @Override
-//     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-//             throws IOException, ServletException {
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
 
-//         HttpServletRequest req = (HttpServletRequest) request;
-//         String header = req.getHeader("Authorization");
+        HttpServletRequest req = (HttpServletRequest) request;
+        String header = req.getHeader("Authorization");
 
-//         if (header != null && header.startsWith("Bearer ")) {
-//             String token = header.substring(7);
-//             tokenProvider.validateToken(token);
-//         }
+        if (header != null && header.startsWith("Bearer ")) {
+            String token = header.substring(7);
+            tokenProvider.validateToken(token);
+        }
 
-//         chain.doFilter(request, response);
-//     }
-// }
+        chain.doFilter(request, response);
+    }
+}
