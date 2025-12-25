@@ -1,28 +1,15 @@
-package com.example.demo.repository;
+package com.example.demo.service;
 
 import com.example.demo.model.DeliveryEvaluation;
-import com.example.demo.model.SLARequirement;
-import com.example.demo.model.Vendor;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-
 import java.util.List;
 
-public interface DeliveryEvaluationRepository
-        extends JpaRepository<DeliveryEvaluation, Long> {
+public interface DeliveryEvaluationService {
 
-    // REQUIRED – used by service
-    List<DeliveryEvaluation> findByVendorId(Long vendorId);
+    DeliveryEvaluation createEvaluation(DeliveryEvaluation evaluation);
 
-    // REQUIRED – used by service
-    List<DeliveryEvaluation> findBySlaRequirementId(Long slaId);
+    DeliveryEvaluation getEvaluationById(Long id);
 
-    // REQUIRED @Query
-    @Query("SELECT d FROM DeliveryEvaluation d WHERE d.vendor = :vendor AND d.qualityScore >= :minScore")
-    List<DeliveryEvaluation> findHighQualityDeliveries(
-            Vendor vendor, Double minScore);
+    List<DeliveryEvaluation> getEvaluationsForVendor(Long vendorId);
 
-    // REQUIRED @Query
-    @Query("SELECT d FROM DeliveryEvaluation d WHERE d.slaRequirement = :sla AND d.meetsDeliveryTarget = true")
-    List<DeliveryEvaluation> findOnTimeDeliveries(SLARequirement sla);
+    List<DeliveryEvaluation> getEvaluationsForRequirement(Long requirementId);
 }
