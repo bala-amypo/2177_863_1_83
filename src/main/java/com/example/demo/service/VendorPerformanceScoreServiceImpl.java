@@ -61,7 +61,7 @@ public class VendorPerformanceScoreServiceImpl
 
     @Override
     public VendorPerformanceScore getLatestScore(Long vendorId) {
-        return scoreRepo.findByVendorOrderByCalculatedAtDesc(vendorId)
+        return scoreRepo.findByVendorIdOrderByCalculatedAtDesc(vendorId)
                 .stream().findFirst().orElse(null);
     }
 
