@@ -4,9 +4,6 @@ import com.example.demo.model.SLARequirement;
 import com.example.demo.service.SLARequirementService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.*;
-import java.util.List;
-import io.swagger.v3.oas.annotations.tags.Tag;
 
 
 import java.util.List;
