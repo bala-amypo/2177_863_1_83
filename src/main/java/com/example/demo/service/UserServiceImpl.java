@@ -2,7 +2,6 @@ package com.example.demo.service.impl;
 
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
-//import com.example.demo.security.JwtTokenProvider;
 import com.example.demo.service.UserService;
 import org.springframework.stereotype.Service;
 
@@ -10,19 +9,17 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    //private final JwtTokenProvider tokenProvider;
 
-    public UserServiceImpl(UserRepository userRepository,
-                           JwtTokenProvider tokenProvider) {
+    // ✅ ONLY repository in constructor
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.tokenProvider = tokenProvider;
     }
 
     @Override
     public User register(String email, String password, String role) {
         User user = new User();
         user.setEmail(email);
-        user.setPassword(password); // (plain for now)
+        user.setPassword(password); // plain password (for now)
         user.setRole(role);
         return userRepository.save(user);
     }
@@ -36,6 +33,7 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("Invalid credentials");
         }
 
-        return tokenProvider.createToken(user.getEmail(), user.getRole());
+        // ✅ JWT REMOVED – return simple success message
+        return "Login successful";
     }
 }
