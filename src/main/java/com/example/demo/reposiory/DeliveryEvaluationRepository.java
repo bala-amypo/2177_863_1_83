@@ -1,37 +1,28 @@
 package com.example.demo.repository;
 
+import com.example.demo.model.DeliveryEvaluation;
+import com.example.demo.model.SLARequirement;
+import com.example.demo.model.Vendor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-
-import com.example.demo.entity.*;
 
 import java.util.List;
 
-public interface DeliveryEvaluationRepository extends JpaRepository<DeliveryEvaluation, Long> {
+public interface DeliveryEvaluationRepository
+        extends JpaRepository<DeliveryEvaluation, Long> {
 
+    // REQUIRED
     List<DeliveryEvaluation> findByVendorId(Long vendorId);
 
+    // REQUIRED
     List<DeliveryEvaluation> findBySlaRequirementId(Long slaId);
 
-     
-    @Query("""
-           SELECT d FROM DeliveryEvaluation d
-           WHERE d.vendor = :vendor
-           AND d.score >= :minScore
-           """)
+    // MUST USE @Query
+    @Query("SELECT d FROM DeliveryEvaluation d WHERE d.vendor = :vendor AND d.qualityScore >= :minScore")
     List<DeliveryEvaluation> findHighQualityDeliveries(
-            @Param("vendor") Vendor vendor,
-            @Param("minScore") Double minScore
-    );
+            Vendor vendor, Double minScore);
 
-    
-    @Query("""
-           SELECT d FROM DeliveryEvaluation d
-           WHERE d.slaRequirement = :sla
-           AND d.onTime = true
-           """)
-    List<DeliveryEvaluation> findOnTimeDeliveries(
-            @Param("sla") SLARequirement sla
-    );
+    // MUST USE @Query
+    @Query("SELECT d FROM DeliveryEvaluation d WHERE d.slaRequirement = :sla AND d.meetsDeliveryTarget = true")
+    List<DeliveryEvaluation> findOnTimeDeliveries(SLARequirement sla);
 }
