@@ -11,18 +11,18 @@ import java.util.List;
 public interface DeliveryEvaluationRepository
         extends JpaRepository<DeliveryEvaluation, Long> {
 
-    // REQUIRED
+    // REQUIRED – used by service
     List<DeliveryEvaluation> findByVendorId(Long vendorId);
 
-    // REQUIRED
+    // REQUIRED – used by service
     List<DeliveryEvaluation> findBySlaRequirementId(Long slaId);
 
-    // MUST USE @Query
+    // REQUIRED @Query
     @Query("SELECT d FROM DeliveryEvaluation d WHERE d.vendor = :vendor AND d.qualityScore >= :minScore")
     List<DeliveryEvaluation> findHighQualityDeliveries(
             Vendor vendor, Double minScore);
 
-    // MUST USE @Query
+    // REQUIRED @Query
     @Query("SELECT d FROM DeliveryEvaluation d WHERE d.slaRequirement = :sla AND d.meetsDeliveryTarget = true")
     List<DeliveryEvaluation> findOnTimeDeliveries(SLARequirement sla);
 }
