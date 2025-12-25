@@ -4,23 +4,6 @@ import com.example.demo.security.JwtAuthenticationFilter;
 import com.example.demo.security.JwtTokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-
-@Configuration
-public class SecurityConfig {
-
-    @Bean
-    public JwtTokenProvider jwtTokenProvider() {
-        return new JwtTokenProvider("secret-key", 3600000);
-    }
-
-    @Beanpackage com.example.demo.security;
-
-import com.example.demo.security.JwtAuthenticationFilter;
-import com.example.demo.security.JwtTokenProvider;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
@@ -38,40 +21,26 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+            // Disable CSRF for APIs
             .csrf(csrf -> csrf.disable())
+
+            // Stateless session (no session)
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
+
+            // URL authorization
             .authorizeHttpRequests(auth -> auth
-                // allow login endpoints
-                .requestMatchers("/auth/**").permitAll()
-                // allow static resources
-                .requestMatchers("/", "/index.html", "/css/**", "/js/**", "/images/**").permitAll()
-                // secure API endpoints
-                .requestMatchers("/api/**").authenticated()
-                // everything else
+                .requestMatchers("/auth/**").permitAll()               // login/register
+                .requestMatchers("/", "/index.html", "/css/**", "/js/**", "/images/**").permitAll()  // static files
+                .requestMatchers("/api/**").authenticated()          // secure API
                 .anyRequest().permitAll()
             )
-            // add JWT filter
-            .addFilterBefore(new JwtAuthenticationFilter(tokenProvider),
-                             UsernamePasswordAuthenticationFilter.class);
 
-        return http.build();
-    }
-}
-
-    public SecurityFilterChain filterChain(HttpSecurity http,
-                                           JwtTokenProvider provider) throws Exception {
-
-        http.csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/**").permitAll()
-                .requestMatchers("/api/**").authenticated()
-                .anyRequest().permitAll()
-            )
+            // Add JWT filter
             .addFilterBefore(
-                new JwtAuthenticationFilter(provider),
-                org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class
+                new JwtAuthenticationFilter(tokenProvider),
+                UsernamePasswordAuthenticationFilter.class
             );
 
         return http.build();
