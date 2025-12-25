@@ -1,15 +1,13 @@
- package com.example.demo.controller;
+package com.example.demo.controller;
 
 import com.example.demo.model.DeliveryEvaluation;
 import com.example.demo.service.DeliveryEvaluationService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.util.List;
- @RestController
+
+@RestController
 @RequestMapping("/api/evaluations")
-@Tag(name = "Delivery Evaluation API")
 public class DeliveryEvaluationController {
 
     private final DeliveryEvaluationService service;
@@ -18,62 +16,25 @@ public class DeliveryEvaluationController {
         this.service = service;
     }
 
-    
+    // ✅ FIXED: accept DeliveryEvaluation object
     @PostMapping
     public DeliveryEvaluation create(@RequestBody DeliveryEvaluation evaluation) {
-
-        if (evaluation.getVendor() == null || evaluation.getVendor().getId() == null) {
-            throw new IllegalArgumentException("Vendor ID is required");
-        }
-
-        if (evaluation.getSlaRequirement() == null || evaluation.getSlaRequirement().getId() == null) {
-            throw new IllegalArgumentException("SLA Requirement ID is required");
-        }
-
-        return service.createEvaluation(
-                evaluation.getVendor().getId(),
-                evaluation.getSlaRequirement().getId(),
-                evaluation.getActualDeliveryDays(),
-                evaluation.getQualityScore(),
-                evaluation.getEvaluationDate()
-        );
+        return service.createEvaluation(evaluation);
     }
 
-    
     @GetMapping("/{id}")
     public DeliveryEvaluation getById(@PathVariable Long id) {
         return service.getEvaluationById(id);
     }
 
-    @GetMapping("/by-vendor")
-    public List<DeliveryEvaluation> getByVendor(
-            @RequestParam Long vendorId) {
-
+    @GetMapping("/vendor/{vendorId}")
+    public List<DeliveryEvaluation> getByVendor(@PathVariable Long vendorId) {
         return service.getEvaluationsForVendor(vendorId);
     }
 
-    
-    @GetMapping("/by-requirement")
+    @GetMapping("/requirement/{requirementId}")
     public List<DeliveryEvaluation> getByRequirement(
-            @RequestParam Long requirementId) {
-
+            @PathVariable Long requirementId) {
         return service.getEvaluationsForRequirement(requirementId);
-    }
-
-    
-    @GetMapping("/high-quality")
-    public List<DeliveryEvaluation> getHighQualityDeliveries(
-            @RequestParam Long vendorId,
-            @RequestParam Double minScore) {
-
-        return service.getHighQualityDeliveries(vendorId, minScore);
-    }
-
-    
-    @GetMapping("/on-time")
-    public List<DeliveryEvaluation> getOnTimeDeliveries(
-            @RequestParam Long slaId) {
-
-        return service.getOnTimeDeliveries(slaId);
     }
 }
