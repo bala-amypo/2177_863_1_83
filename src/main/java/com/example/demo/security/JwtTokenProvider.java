@@ -3,6 +3,13 @@ package com.example.demo.security;
 import io.jsonwebtoken.*;
 import java.util.Date;
 
+import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
+
+
 public class JwtTokenProvider {
 
     private final String secret;
