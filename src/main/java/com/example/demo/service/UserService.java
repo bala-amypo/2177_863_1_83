@@ -1,8 +1,8 @@
-package com.example.demo.service;
+// package com.example.demo.service;
 
-import com.example.demo.model.User;
+// import com.example.demo.model.User;
 
-public interface UserService {
+// public interface UserService {
 
-    User getByEmail(String email);
-}
+//     User getByEmail(String email);
+// }
