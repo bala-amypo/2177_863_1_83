@@ -45,9 +45,9 @@ public class OpenApiConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Dynamic Event Ticket Pricing Engine API")
+                        .title("Vendor SLA performance Tracker")
                         .version("1.0")
-                        .description("REST API for managing dynamic ticket pricing for events")
+                        
                         .contact(new Contact()
                                 .name("API Support")
                                 .email("support@example.com")))
