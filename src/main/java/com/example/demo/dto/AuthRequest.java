@@ -1,20 +1,33 @@
-// package com.example.demo.dto;
 
-// public class AuthResponse {
 
-//     private String token;
 
-//     public AuthResponse() {}
+package com.example.demo.dto;
 
-//     public AuthResponse(String token) {
-//         this.token = token;
-//     }
+public class AuthRequest {
 
-//     public String getToken() {
-//         return token;
-//     }
+    private String username;
+    private String password;
 
-//     public void setToken(String token) {
-//         this.token = token;
-//     }
-// }
+    public AuthRequest() {}
+
+    public AuthRequest(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+}
