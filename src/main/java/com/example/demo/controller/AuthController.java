@@ -31,8 +31,17 @@ public class AuthController {
 
     @PostMapping("/login")
     public AuthResponse login(@RequestBody AuthRequest request) {
-        userService.login(request.getEmail(), request.getPassword());
-        String token = jwtTokenProvider.createToken(request.getEmail());
+        User user = userService.login(
+                request.getEmail(),
+                request.getPassword()
+        );
+
+        String token = jwtTokenProvider.createToken(
+                user.getEmail(),
+                user.getRole(),
+                user.getId()
+        );
+
         return new AuthResponse(token);
     }
 }
