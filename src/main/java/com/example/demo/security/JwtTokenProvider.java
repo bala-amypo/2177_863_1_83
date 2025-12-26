@@ -53,4 +53,12 @@ public class JwtTokenProvider {
             .parseClaimsJws(token)
             .getBody();
     }
+    public String getEmail(String token) {
+    return getClaims(token).get("email", String.class);
+}
+
+public String getRole(String token) {
+    return getClaims(token).get("role", String.class);
+}
+
 }
