@@ -25,10 +25,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User login(String email, String password) {
-        User user = repo.findByEmail(email);
-        if (user != null && user.getPassword().equals(password)) {
-            return user;
-        }
-        throw new RuntimeException("Invalid credentials");
+        return repo.findByEmail(email)
+                .filter(u -> u.getPassword().equals(password))
+                .orElseThrow(() ->
+                        new RuntimeException("Invalid credentials"));
     }
 }
