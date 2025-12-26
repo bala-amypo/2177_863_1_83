@@ -8,3 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface VendorRepository extends JpaRepository<Vendor, Long> {
     boolean existsByName(String name);
 }
+
+
