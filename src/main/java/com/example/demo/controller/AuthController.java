@@ -25,7 +25,7 @@ public class AuthController {
         return userService.register(
                 request.getEmail(),
                 request.getPassword(),
-                "USER"
+                "ADMIN"
         );
     }
 
