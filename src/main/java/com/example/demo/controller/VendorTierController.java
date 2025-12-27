@@ -2,50 +2,55 @@ package com.example.demo.controller;
 
 import com.example.demo.model.VendorTier;
 import com.example.demo.service.VendorTierService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/vendor-tiers")
-@Tag(name = "Vendor Tiers", description = "APIs for managing vendor tiers")
+@RequestMapping("/api/tiers")
+@SecurityRequirement(name="bearerAuth")
 public class VendorTierController {
 
-    @Autowired
-    private VendorTierService service;
+    private final VendorTierService vendorTierService;
+
+    public VendorTierController(VendorTierService vendorTierService) {
+        this.vendorTierService = vendorTierService;
+    }
 
     @PostMapping
-    @Operation(summary = "Create vendor tier")
-    public ResponseEntity<VendorTier> createTier(@RequestBody VendorTier tier) {
-        return ResponseEntity.ok(service.createTier(tier));
+    public ResponseEntity<VendorTier> create(@RequestBody VendorTier tier) {
+        return ResponseEntity.ok(
+                vendorTierService.createTier(tier)
+        );
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Update vendor tier")
-    public ResponseEntity<VendorTier> updateTier(@PathVariable Long id, @RequestBody VendorTier tier) {
-        return ResponseEntity.ok(service.updateTier(id, tier));
+    public ResponseEntity<VendorTier> update(@PathVariable Long id,
+                                             @RequestBody VendorTier tier) {
+        return ResponseEntity.ok(
+                vendorTierService.updateTier(id, tier)
+        );
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Get vendor tier by ID")
-    public ResponseEntity<List<VendorTier>> getAllTiers() {
-        return ResponseEntity.ok(service.getAllTiers());
+    public ResponseEntity<VendorTier> get(@PathVariable Long id) {
+        return ResponseEntity.ok(
+                vendorTierService.getTierById(id)
+        );
     }
 
     @GetMapping
-    @Operation(summary = "Get all vendor tiers")
-    public ResponseEntity<List<VendorTier>> getAllTiers2() {
-        return ResponseEntity.ok(service.getAllTiers());
+    public ResponseEntity<List<VendorTier>> getAll() {
+        return ResponseEntity.ok(
+                vendorTierService.getAllTiers()
+        );
     }
 
-    @DeleteMapping("/{id}")
-    @Operation(summary = "Deactivate vendor tier")
-    public ResponseEntity<Void> deactivateTier(@PathVariable Long id) {
-        service.deactivateTier(id);
+    @PutMapping("/{id}/deactivate")
+    public ResponseEntity<Void> deactivate(@PathVariable Long id) {
+        vendorTierService.deactivateTier(id);
         return ResponseEntity.ok().build();
     }
 }
