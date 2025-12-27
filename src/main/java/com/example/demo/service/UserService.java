@@ -1,33 +1,12 @@
-package com.example.demo.service.impl;
+package com.example.demo.service;
 
-import org.springframework.stereotype.Service;
 import com.example.demo.model.User;
-import com.example.demo.repository.UserRepository;
-import com.example.demo.service.UserService;
 
-@Service
-public class UserServiceImpl implements UserService {
+public interface UserService {
 
-    private final UserRepository repo;
+    User register(String email, String password, String role);
 
-    public UserServiceImpl(UserRepository repo) {
-        this.repo = repo;
-    }
+    User login(String email, String password);
 
-    @Override
-    public User register(String email, String password, String role) {
-        User user = new User();
-        user.setEmail(email);
-        user.setPassword(password);
-        user.setRole(role);
-        return repo.save(user);
-    }
-
-    @Override
-    public User login(String email, String password) {
-        return repo.findByEmail(email)
-                .filter(u -> u.getPassword().equals(password))
-                .orElseThrow(() ->
-                        new RuntimeException("Invalid credentials"));
-    }
+    User getByEmail(String email);
 }

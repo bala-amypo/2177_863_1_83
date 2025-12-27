@@ -1,23 +1,18 @@
-package com.example.demo.service.impl;
+package com.example.demo.service;
 
 import com.example.demo.model.SLARequirement;
-import com.example.demo.repository.SLARequirementRepository;
-import com.example.demo.service.SLARequirementService;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class SLARequirementServiceImpl implements SLARequirementService {
+public interface SLARequirementService {
 
-    private final SLARequirementRepository slaRequirementRepository;
+    SLARequirement createRequirement(SLARequirement requirement);
 
-    public SLARequirementServiceImpl(SLARequirementRepository slaRequirementRepository) {
-        this.slaRequirementRepository = slaRequirementRepository;
-    }
+    SLARequirement updateRequirement(Long id, SLARequirement requirement);
 
-    @Override
-    public List<SLARequirement> getAllRequirements() {
-        return slaRequirementRepository.findAll();
-    }
+    SLARequirement getRequirementById(Long id);
+
+    List<SLARequirement> getAllRequirements();
+
+    void deactivateRequirement(Long id);
 }
