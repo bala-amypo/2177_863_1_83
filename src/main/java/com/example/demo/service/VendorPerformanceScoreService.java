@@ -4,7 +4,8 @@ import com.example.demo.model.VendorPerformanceScore;
 import java.util.List;
 
 public interface VendorPerformanceScoreService {
-    VendorPerformanceScore calculateScore(Long vendorId);
-    VendorPerformanceScore getLatestScore(Long vendorId);
-    List<VendorPerformanceScore> getScoresForVendor(Long vendorId);
+    VendorPerformanceScore calculatePerformanceScore(Long vendorId);  // Test #45, #46, #47
+    VendorPerformanceScore calculateScore(Long vendorId);             // Test #77
+    VendorPerformanceScore getLatestScore(Long vendorId);             // Test #78
+    List<VendorPerformanceScore> getScoresForVendor(Long vendorId);   // Test #79
 }
