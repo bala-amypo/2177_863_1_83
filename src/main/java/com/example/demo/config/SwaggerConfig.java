@@ -22,7 +22,7 @@ public class SwaggerConfig {
                         .description("Vendor SLA Performance Tracker with JWT Security"))
 
                 .servers(List.of(
-                        new Server().url("https://9094.pro604cr.amypo.ai")
+                        new Server().url("https://9068.32procr.amypo.ai")
                 ))
 
                 .components(new Components()
