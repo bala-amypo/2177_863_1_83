@@ -5,16 +5,22 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "vendor_tiers")
 public class VendorTier {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(unique = true, nullable = false)
     private String tierName;
-    
+
+    @NotNull
+    @Column(name = "min_score", nullable = false)
     private Double minScoreThreshold;
+
     private String description;
     private Boolean active = true;
+}
+
     
     public VendorTier() {}
     
