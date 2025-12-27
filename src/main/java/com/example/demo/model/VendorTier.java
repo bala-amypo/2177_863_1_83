@@ -9,33 +9,33 @@ public class VendorTier {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(unique = true, nullable = false)
+    @Column(name = "tier_name", unique = true, nullable = false)
     private String tierName;
     
-    private Double minScoreThreshold;
+    @Column(name = "min_overall_score")
+    private Double minOverallScore;
+    
     private String description;
-    private Boolean active = true;
     
+    private boolean active = true;
+
     public VendorTier() {}
-    
-    public VendorTier(String tierName, Double minScoreThreshold, String description) {
+
+    public VendorTier(String tierName, Double minOverallScore, String description) {
         this.tierName = tierName;
-        this.minScoreThreshold = minScoreThreshold;
+        this.minOverallScore = minOverallScore;
         this.description = description;
     }
-    
+
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-    
     public String getTierName() { return tierName; }
     public void setTierName(String tierName) { this.tierName = tierName; }
-    
-    public Double getMinScoreThreshold() { return minScoreThreshold; }
-    public void setMinScoreThreshold(Double minScoreThreshold) { this.minScoreThreshold = minScoreThreshold; }
-    
+    public Double getMinOverallScore() { return minOverallScore; }
+    public void setMinOverallScore(Double minOverallScore) { this.minOverallScore = minOverallScore; }
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
-    
-    public Boolean getActive() { return active; }
-    public void setActive(Boolean active) { this.active = active; }
+    public boolean getActive() { return active; }
+    public void setActive(boolean active) { this.active = active; }
 }
