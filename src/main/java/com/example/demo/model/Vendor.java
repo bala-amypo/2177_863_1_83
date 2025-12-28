@@ -4,12 +4,12 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+//import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 @Entity
 @Table(name = "vendors", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
-@JsonIgnoreProperties({"deliveryEvaluations"})
+//@JsonIgnoreProperties({"deliveryEvaluations"})
 public class Vendor {
 
     @Id
