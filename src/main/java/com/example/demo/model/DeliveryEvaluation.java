@@ -2,6 +2,8 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 @Entity
 @Table(name = "delivery_evaluations")
