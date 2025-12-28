@@ -1,10 +1,12 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "delivery_evaluations")
+@JsonIgnoreProperties({"vendor", "slaRequirement"}) // 🔹 Prevent infinite recursion in JSON
 public class DeliveryEvaluation {
 
     @Id
@@ -48,32 +50,20 @@ public class DeliveryEvaluation {
     public void setVendor(Vendor vendor) { this.vendor = vendor; }
 
     public SLARequirement getSlaRequirement() { return slaRequirement; }
-    public void setSlaRequirement(SLARequirement slaRequirement) {
-        this.slaRequirement = slaRequirement;
-    }
+    public void setSlaRequirement(SLARequirement slaRequirement) { this.slaRequirement = slaRequirement; }
 
     public Integer getActualDeliveryDays() { return actualDeliveryDays; }
-    public void setActualDeliveryDays(Integer actualDeliveryDays) {
-        this.actualDeliveryDays = actualDeliveryDays;
-    }
+    public void setActualDeliveryDays(Integer actualDeliveryDays) { this.actualDeliveryDays = actualDeliveryDays; }
 
     public Double getQualityScore() { return qualityScore; }
-    public void setQualityScore(Double qualityScore) {
-        this.qualityScore = qualityScore;
-    }
+    public void setQualityScore(Double qualityScore) { this.qualityScore = qualityScore; }
 
     public LocalDate getEvaluationDate() { return evaluationDate; }
-    public void setEvaluationDate(LocalDate evaluationDate) {
-        this.evaluationDate = evaluationDate;
-    }
+    public void setEvaluationDate(LocalDate evaluationDate) { this.evaluationDate = evaluationDate; }
 
     public Boolean getMeetsDeliveryTarget() { return meetsDeliveryTarget; }
-    public void setMeetsDeliveryTarget(Boolean meetsDeliveryTarget) {
-        this.meetsDeliveryTarget = meetsDeliveryTarget;
-    }
+    public void setMeetsDeliveryTarget(Boolean meetsDeliveryTarget) { this.meetsDeliveryTarget = meetsDeliveryTarget; }
 
     public Boolean getMeetsQualityTarget() { return meetsQualityTarget; }
-    public void setMeetsQualityTarget(Boolean meetsQualityTarget) {
-        this.meetsQualityTarget = meetsQualityTarget;
-    }
+    public void setMeetsQualityTarget(Boolean meetsQualityTarget) { this.meetsQualityTarget = meetsQualityTarget; }
 }
