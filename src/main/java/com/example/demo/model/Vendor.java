@@ -7,6 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "vendors", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
+@JsonIgnoreProperties({"deliveryEvaluations"})
 public class Vendor {
 
     @Id

@@ -6,6 +6,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "sla_requirements", uniqueConstraints = @UniqueConstraint(columnNames = "requirementName"))
+@JsonIgnoreProperties({"deliveryEvaluations"})
 public class SLARequirement {
 
     @Id
