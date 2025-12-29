@@ -50,9 +50,11 @@ public class DeliveryEvaluationServiceImpl implements DeliveryEvaluationService 
             throw new IllegalArgumentException("Quality score must be between 0 and 100");
         }
 
+        // Business rules
         eval.setMeetsDeliveryTarget(
                 eval.getActualDeliveryDays() <= sla.getMaxDeliveryDays()
         );
+
         eval.setMeetsQualityTarget(
                 eval.getQualityScore() >= sla.getMinQualityScore()
         );
@@ -66,13 +68,15 @@ public class DeliveryEvaluationServiceImpl implements DeliveryEvaluationService 
                 .orElseThrow(() -> new IllegalArgumentException("Evaluation not found"));
     }
 
+    // ✅ FIXED METHOD CALL
     @Override
     public List<DeliveryEvaluation> getEvaluationsForVendor(Long vendorId) {
-        return deliveryEvaluationRepository.findByVendorId(vendorId);
+        return deliveryEvaluationRepository.findByVendor_Id(vendorId);
     }
 
+    // ✅ FIXED METHOD CALL
     @Override
     public List<DeliveryEvaluation> getEvaluationsForRequirement(Long requirementId) {
-        return deliveryEvaluationRepository.findBySlaRequirementId(requirementId);
+        return deliveryEvaluationRepository.findBySlaRequirement_Id(requirementId);
     }
 }
