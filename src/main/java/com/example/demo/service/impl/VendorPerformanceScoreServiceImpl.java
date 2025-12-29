@@ -40,13 +40,16 @@ public class VendorPerformanceScoreServiceImpl
         Vendor vendor = vendorRepository.findById(vendorId)
                 .orElseThrow(() -> new IllegalArgumentException("Vendor not found"));
 
+        // ✅ FIXED METHOD NAME
         List<DeliveryEvaluation> evaluations =
-                evaluationRepository.findByVendorId(vendorId);
+                evaluationRepository.findByVendor_Id(vendorId);
 
         long total = evaluations.size();
+
         long onTime = evaluations.stream()
                 .filter(DeliveryEvaluation::getMeetsDeliveryTarget)
                 .count();
+
         long quality = evaluations.stream()
                 .filter(DeliveryEvaluation::getMeetsQualityTarget)
                 .count();
