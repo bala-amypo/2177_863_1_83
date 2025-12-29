@@ -3,10 +3,12 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 @Table(name = "vendor_performance_scores")
-@JsonIgnore
+
 public class VendorPerformanceScore {
 
     @Id
@@ -15,6 +17,7 @@ public class VendorPerformanceScore {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "vendor_id")
+    @JsonIgnore
     private Vendor vendor;
 
     private Double onTimePercentage;
