@@ -14,9 +14,9 @@ import java.util.List;
 public interface DeliveryEvaluationRepository
         extends JpaRepository<DeliveryEvaluation, Long> {
 
-    List<DeliveryEvaluation> findByVendorId(Long vendorId);
+   List<DeliveryEvaluation> findByVendor_Id(Long vendorId);
+List<DeliveryEvaluation> findBySlaRequirement_Id(Long slaRequirementId);
 
-    List<DeliveryEvaluation> findBySlaRequirementId(Long slaRequirementId);
 
     @Query("SELECT d FROM DeliveryEvaluation d " +
            "WHERE d.vendor = :vendor AND d.qualityScore >= :minScore")
